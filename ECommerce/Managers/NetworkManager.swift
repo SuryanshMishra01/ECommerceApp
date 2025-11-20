@@ -7,10 +7,13 @@
 
 import Foundation
 internal import Combine
+import SwiftUI
 
 class NetworkManager: ObservableObject {
     
     @Published var products: [Product] = []
+  
+   
     
     func fetchData() async throws  {
         guard let url = URL(string: K.api) else {
@@ -31,4 +34,6 @@ class NetworkManager: ObservableObject {
             print("Error in fetching data: \(error)")
         }
     }
+    
+    
 }
