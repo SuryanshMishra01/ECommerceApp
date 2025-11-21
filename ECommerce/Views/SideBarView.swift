@@ -7,44 +7,37 @@
 
 import SwiftUI
 
+
+enum Menu: String, CaseIterable, Identifiable{
+    
+    case profile = "Profile"
+    case home = "Home"
+    case categories = "Categories"
+    case cart = "Your Cart"
+    case orders = "Your Orders"
+    case settings = "Settings"
+    case support = "Support"
+    
+    var id: String {rawValue}
+}
+
+
 struct SideBarView: View {
+    
+    @State private var selected: Menu? = .home
+    
+    
     var body: some View {
-        NavigationStack{
-            VStack{
-                NavigationLink{
-                    
-                }label: {
-                    Text("Search by Category")
-                }
-                NavigationLink{
-                    
-                }label: {
-                    Text("Search by Brand")
-                }
-                NavigationLink{
-                    
-                }label: {
-                    Text("Search by Tags")
-                }
-                Spacer()
-                NavigationLink{
-                    
-                }label: {
-                    Text("Account")
-                }
-                NavigationLink{
-                    
-                }label: {
-                    Text("Help")
-                }
-                NavigationLink{
-                    
-                }label: {
-                    Text("Logout")
-                        .foregroundColor(Color.red)
-                }
+        NavigationSplitView{
+            List(Menu.allCases, selection: $selected){item in
+                Text(item.rawValue)
             }
+            
+        }detail: {
+            DetailView(type: selected!)
         }
+        
+        
     }
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct HomeView: View {
+struct CategoriesView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @StateObject private var nm = NetworkManager()

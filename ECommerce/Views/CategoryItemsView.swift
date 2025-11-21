@@ -25,38 +25,28 @@ struct CategoryItemsView: View {
             LazyVGrid(columns: self.columns, spacing: 10){
                 ForEach(dataByCategory, id: \.id){ product in
                     VStack(alignment: .leading){
-                        AsyncImage(url: URL(string: product.images.first!)){phase in
-                            if let image = phase.image{
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width:150, height: 120)
-                                
-                                   
-                            }else if phase.error != nil{
-                                Text("Error Loading Image")
-                            }else{
-                                ProgressView()
-                            }
-                        }
+                        fetchAsyncImage(from: URL(string: product.images.first!)!)
                         HStack{
                             Text(product.title)
                             Text(String(format: "%.2f",product.price.roundedUp(toPlaces: 2)))
                         }
                         .padding()
-                        HStack{
-                            Spacer()
-                            Button("Add to Cart"){
-                                
+                        NavigationStack{
+                            HStack{
+                            
+                                Spacer()
+                                NavigationLink("Add to Cart"){
+                                    
+                                }
+                                .background(Color.orange)
+                                .clipShape(RoundedRectangle(cornerRadius: 10.0))
+                                NavigationLink("Check Details"){
+                                    ItemDetailView(nm: self.nm, id: product.id)
+                                }
+                                .background(Color.green)
+                                .clipShape(RoundedRectangle(cornerRadius: 10.0))
+                                Spacer()
                             }
-                            .background(Color.orange)
-                            .clipShape(RoundedRectangle(cornerRadius: 10.0))
-                            Button("Buy"){
-                                
-                            }
-                            .background(Color.green)
-                            .clipShape(RoundedRectangle(cornerRadius: 10.0))
-                            Spacer()
                         }
                     }
                  
