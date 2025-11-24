@@ -13,12 +13,16 @@ struct ECommerceApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject var nm =  NetworkManager()
 
+    @StateObject var cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext)
+
+
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .environmentObject(nm)
+                .environmentObject(cartVM)
                 .task{
                     try? await self.nm.fetchData()
 
@@ -27,3 +31,4 @@ struct ECommerceApp: App {
         
     }
 }
+

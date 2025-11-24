@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
-   
+   @EnvironmentObject var nm: NetworkManager
+    
     var body: some View {
         NavigationSplitView{
             SideBarView()

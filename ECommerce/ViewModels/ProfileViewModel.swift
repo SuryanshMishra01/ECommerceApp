@@ -84,7 +84,7 @@ class ProfileViewModel: ObservableObject {
             profile.darkMode = darkMode
 
             do {
-                try PersistenceController.shared.save(context: PersistenceController.shared.bgContext)
+                try PersistenceController.shared.save(context: self.context)
             print("Profile saved")
             } catch {
                 print("Save error:", error.localizedDescription)

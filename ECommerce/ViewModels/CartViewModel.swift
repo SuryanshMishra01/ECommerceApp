@@ -12,18 +12,13 @@ internal import Combine
 
 class CartViewModel: ObservableObject {
     
-   private let  nm: NetworkManager
     
-    private let context: NSManagedObjectContext
-    
-    
+    let context: NSManagedObjectContext
     
     @Published var cart: [CartItem] = []
     
-    init(context: NSManagedObjectContext, nm: NetworkManager){
+    init(context: NSManagedObjectContext){
         self.context = context
-        self.nm = nm
-        
     }
     
     
@@ -60,15 +55,21 @@ class CartViewModel: ObservableObject {
         }catch{
             print("Error deleting cart item ...")
         }
+    }
         
-        func addToCart(id: Int){
-            let item = CartItem(context: self.context)
-            item.id = Int64(id)
-            item.quantity = Int64(nm.products.first(where: { $0.id == id })?.stock ?? 0)
-            
+    func addToCart(item: CartItem){
+            let newItem = CartItem(context: self.context)
+            newItem.id = Int64(item.id)
+            newItem.quantity = Int64(item.quantity)
+            do{
+               try PersistenceController.shared.save(context: self.context)
+                print("Added Item to Cart")
+                
+            }catch{
+                print("Error adding item to Cart")
+            }
         }
         
         
-    }
-    
 }
+

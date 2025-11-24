@@ -13,7 +13,7 @@ struct ProfileView: View {
     
     
     init(){
-        _vm = StateObject(wrappedValue: ProfileViewModel(context: PersistenceController.shared.container.viewContext))
+        _vm = StateObject(wrappedValue: ProfileViewModel(context: PersistenceController.shared.bgContext))
     }
 
     var body: some View {

@@ -9,19 +9,35 @@ import SwiftUI
 
 struct CartsView: View {
     
-    @ObservedObject var nm: NetworkManager
+    @EnvironmentObject var nm: NetworkManager
     @StateObject private var vm: CartViewModel
-
-    init(nm: NetworkManager) {
-        self.nm = nm
-        _vm = StateObject(wrappedValue: CartViewModel(context: PersistenceController.shared.bgContext, nm: nm))
+    
+   
+    
+    var cartItems: [Product]{
+        nm.products.filter{product in
+            vm.cart.contains(where: {$0.id == product.id})
+        }
     }
     
-    var body: some View {
-        Text("Cart is Empty")
+    init(){
+        _vm = StateObject(wrappedValue: CartViewModel(context: PersistenceController.shared.container.viewContext))
     }
+        
+        
+        var body: some View {
+            CartItemListiew()
+                .environmentObject(vm)
+                .environmentObject(nm)
+                .onAppear(){
+                    vm.loadCart()
+                }
+        }
+        
 }
 
 #Preview {
-    CartsView(nm: NetworkManager())
+    CartsView()
+        .environmentObject(CartViewModel(context: PersistenceController.shared.container.viewContext))
+        .environmentObject(NetworkManager())
 }
