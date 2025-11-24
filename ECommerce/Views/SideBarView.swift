@@ -24,23 +24,48 @@ enum Menu: String, CaseIterable, Identifiable{
 
 struct SideBarView: View {
     
-    @State private var selected: Menu? = .home
-    
+    @State private var selected: Menu = .home
+    @EnvironmentObject var nm: NetworkManager
     
     var body: some View {
-        NavigationSplitView{
-            List(Menu.allCases, selection: $selected){item in
-                Text(item.rawValue)
-            }
+        List(Menu.allCases, id: \.self){ menuItem in
             
-        }detail: {
-            DetailView(type: selected!)
+            NavigationLink(destination:DetailView(type: menuItem)){
+                HStack{
+                    Text(menuItem.rawValue)
+                        .font(.headline)
+                    Spacer()
+                    switch  menuItem{
+                        case .profile:
+                            Image(systemName: "person.crop.circle")
+                    case .home:
+                            Image(systemName: "house")
+                        case .cart:
+                            Image(systemName: "cart")
+                        case .orders:
+                            Image(systemName: "bag")
+                      
+                        case .categories:
+                            Image(systemName: "list.bullet")
+                        case .settings:
+                            Image(systemName: "gearshape")
+                        case .support:
+                            Image(systemName: "questionmark.circle")
+                    }
+               
+                   
+                }
+             
+                
+            }
         }
-        
+       
         
     }
+
 }
 
 #Preview {
     SideBarView()
+        .environmentObject(NetworkManager())
 }

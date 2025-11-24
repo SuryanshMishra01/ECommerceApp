@@ -11,7 +11,7 @@ import CoreData
 struct CategoriesView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @StateObject private var nm = NetworkManager()
+    @EnvironmentObject var nm: NetworkManager
     
     var body: some View {
         Text("ECommerce Application")
@@ -19,20 +19,20 @@ struct CategoriesView: View {
             VStack{
                 HStack{
                     NavigationLink{
-                        CategoryItemsView(nm: nm, category: K.Category.beauty)
+                        CategoryItemsView(category: K.Category.beauty)
                     }label:{
                         VStack{
-                            CategoryFirstImageView(nm: nm, category: K.Category.beauty)
+                            CategoryFirstImageView(category: K.Category.beauty)
                             Text("Beauty Products")
                                 .foregroundColor(Color.white)
                         }
                         .padding()
                     }
                     NavigationLink{
-                        CategoryItemsView(nm: nm, category: K.Category.grocery)
+                        CategoryItemsView(category: K.Category.grocery)
                     }label:{
                         VStack{
-                            CategoryFirstImageView(nm: nm, category: K.Category.grocery)
+                            CategoryFirstImageView(category: K.Category.grocery)
                             Text("Groceries")
                                 .foregroundColor(Color.white)
                         }
@@ -41,20 +41,20 @@ struct CategoriesView: View {
                 }
                 HStack{
                     NavigationLink{
-                        CategoryItemsView(nm: nm, category: K.Category.fragrance)
+                        CategoryItemsView(category: K.Category.fragrance)
                     }label:{
                         VStack{
-                            CategoryFirstImageView(nm: nm, category: K.Category.fragrance)
+                            CategoryFirstImageView(category: K.Category.fragrance)
                             Text("Fragrances")
                                 .foregroundColor(Color.white)
                         }
                         .padding()
                     }
                     NavigationLink{
-                        CategoryItemsView(nm: nm, category: K.Category.furniture)
+                        CategoryItemsView(category: K.Category.furniture)
                     }label:{
                         VStack{
-                            CategoryFirstImageView(nm: nm, category: K.Category.furniture)
+                            CategoryFirstImageView(category: K.Category.furniture)
                             Text("Furnitures")
                                 .foregroundColor(Color.white)
                         }
@@ -63,9 +63,7 @@ struct CategoriesView: View {
                 }
             }
             
-            .task {
-                try? await self.nm.fetchData()
-            }
+           
           
           
         }
@@ -75,6 +73,6 @@ struct CategoriesView: View {
 }
 
 #Preview {
-    HomeView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    CategoriesView().environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
         
 }

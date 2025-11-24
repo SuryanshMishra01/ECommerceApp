@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct MainView: View {
+   
     var body: some View {
-        NavigationView{
-           SideBarView()
-            
+        NavigationSplitView{
+            SideBarView()
+        }detail: {
+            HomeView()
         }
+            
     }
 }
 

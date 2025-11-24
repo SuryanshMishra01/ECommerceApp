@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CategoryItemsView: View {
-    @ObservedObject var nm: NetworkManager
+    @EnvironmentObject var nm: NetworkManager
     let category: String
     
     var dataByCategory: [Product] {
@@ -25,10 +25,11 @@ struct CategoryItemsView: View {
             LazyVGrid(columns: self.columns, spacing: 10){
                 ForEach(dataByCategory, id: \.id){ product in
                     VStack(alignment: .leading){
+                        let _ = print(product.images.first!)
                         fetchAsyncImage(from: URL(string: product.images.first!)!)
                         HStack{
                             Text(product.title)
-                            Text(String(format: "%.2f",product.price.roundedUp(toPlaces: 2)))
+                            Text(String(format: "$%.2f",product.price.roundedUp(toPlaces: 2)))
                         }
                         .padding()
                         NavigationStack{
@@ -41,7 +42,7 @@ struct CategoryItemsView: View {
                                 .background(Color.orange)
                                 .clipShape(RoundedRectangle(cornerRadius: 10.0))
                                 NavigationLink("Check Details"){
-                                    ItemDetailView(nm: self.nm, id: product.id)
+                                    ItemDetailView( id: product.id)
                                 }
                                 .background(Color.green)
                                 .clipShape(RoundedRectangle(cornerRadius: 10.0))
@@ -57,5 +58,5 @@ struct CategoryItemsView: View {
 }
 
 #Preview {
-    CategoryItemsView(nm: NetworkManager(), category: K.Category.beauty )
+    CategoryItemsView(category: K.Category.beauty )
 }

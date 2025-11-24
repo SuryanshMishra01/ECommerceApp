@@ -9,22 +9,24 @@ import SwiftUI
 
 
 struct CategoryFirstImageView: View {
-    @ObservedObject var nm: NetworkManager
+    @EnvironmentObject var nm: NetworkManager
     let category: String
     
  
     var body: some  View {
         
-        if let urlString = nm.products.first(where: {$0.category == category})?.images.last,
-           let url = URL(string: urlString){
-            fetchAsyncImage(from: url)
+        if let urlString = nm.products.first(where: {$0.category == category})?.images.last{
+          let _ = print(urlString)
+            fetchAsyncImage(from: URL(string: urlString)!)
         }else{
             Text("No Image of \(category.capitalized) Product")
         }
+        
     }
         
 }
 
 #Preview {
-    CategoryFirstImageView(nm: NetworkManager(), category: K.Category.beauty)
+    CategoryFirstImageView(category: K.Category.beauty)
+       
 }

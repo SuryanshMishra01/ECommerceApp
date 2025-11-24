@@ -16,6 +16,7 @@ import SwiftUI
 struct DetailView: View {
     
     let type: Menu
+    @EnvironmentObject var nm: NetworkManager
     
     var body: some View {
         switch type{
@@ -33,4 +34,10 @@ struct DetailView: View {
         
     }
     
+}
+
+
+#Preview {
+    DetailView(type: .home)
+        .environmentObject(NetworkManager())
 }
