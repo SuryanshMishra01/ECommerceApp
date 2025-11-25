@@ -18,6 +18,7 @@ struct DetailView: View {
     let type: Menu
     
     var body: some View {
+       
         switch type{
         case .profile: ProfileView()
 

@@ -9,7 +9,9 @@ import SwiftUI
 
 struct OrdersView: View {
     var body: some View {
-        Text("Orders View")
+        Text("Orders")
+            .font(.title.bold())
+            .padding()
     }
 }
 

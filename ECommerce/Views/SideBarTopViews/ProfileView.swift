@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
+internal import CoreData
 
 struct ProfileView: View {
    
-    @StateObject private var vm: ProfileViewModel
+    @EnvironmentObject  var vm: ProfileViewModel
     
     
-    init(){
-        _vm = StateObject(wrappedValue: ProfileViewModel(context: PersistenceController.shared.container.viewContext))
-    }
-
+   
     var body: some View {
+        Text("Profile")
+            .font(.title.bold())
+            .padding()
         ScrollView{
             VStack(spacing: 20) {
                 
@@ -50,11 +51,8 @@ struct ProfileView: View {
                         TextField("Pincode", text: $vm.pincode)
                     }
                     
-                    // MARK: Preferences
-                    Section("Preferences") {
-                        Toggle("Receive Notifications", isOn: $vm.notifications)
-                        Toggle("Dark Mode", isOn: $vm.darkMode)
-                    }
+                 
+                
                 }
                 .frame(maxWidth: 450)
                 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+internal import CoreData
 
 struct ItemListiew: View {
     @EnvironmentObject var nm: NetworkManager

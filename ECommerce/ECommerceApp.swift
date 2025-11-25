@@ -6,13 +6,13 @@
 //
 
 import SwiftUI
-import CoreData
+internal import CoreData
 
 @main
 struct ECommerceApp: App {
     let persistenceController = PersistenceController.shared
     @StateObject var nm =  NetworkManager()
-
+    @StateObject var profileVM = ProfileViewModel(context: PersistenceController.shared.container.viewContext)
     @StateObject var cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext)
 
 
@@ -23,6 +23,7 @@ struct ECommerceApp: App {
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .environmentObject(nm)
                 .environmentObject(cartVM)
+                .environmentObject(profileVM)
                 .task{
                     try? await self.nm.fetchData()
 

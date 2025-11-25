@@ -7,7 +7,7 @@
 
 
 import SwiftUI
-import CoreData
+internal import CoreData
 internal import Combine
 
 class CartViewModel: ObservableObject {

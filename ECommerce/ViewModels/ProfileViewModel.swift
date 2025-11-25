@@ -8,7 +8,7 @@
 
 import SwiftUI
 internal import Combine
-import CoreData
+internal import CoreData
 
 
 class ProfileViewModel: ObservableObject {
@@ -24,8 +24,7 @@ class ProfileViewModel: ObservableObject {
     @Published var city: String = "Noida"
     @Published var pincode: String = "201305"
 
-    @Published var notifications: Bool = true
-    @Published var darkMode: Bool = false
+ 
     
     init(context: NSManagedObjectContext){
         self.context = context
@@ -55,9 +54,7 @@ class ProfileViewModel: ObservableObject {
                 newProfile.street = self.street
                 newProfile.city = self.city
                 newProfile.pincode = self.pincode
-                newProfile.notifications = self.notifications
-                newProfile.darkMode = self.darkMode
-            
+          
                 saveChanges()
             }
         }catch{
@@ -80,8 +77,7 @@ class ProfileViewModel: ObservableObject {
             profile.street = street
             profile.city = city
             profile.pincode = pincode
-            profile.notifications = notifications
-            profile.darkMode = darkMode
+          
 
             do {
                 try PersistenceController.shared.save(context: self.context)

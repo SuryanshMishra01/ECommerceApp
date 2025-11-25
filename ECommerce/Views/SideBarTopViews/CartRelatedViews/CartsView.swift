@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+internal import CoreData
 
 struct CartsView: View {
     
     @EnvironmentObject var cartVM: CartViewModel
     var body: some View {
+        Text("Cart")
+            .font(.title.bold())
+            .padding()
         Group{
             if cartVM.cart.isEmpty{
                 Text("You Cart is Empty")

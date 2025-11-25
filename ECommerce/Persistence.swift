@@ -5,7 +5,7 @@
 //  Created by Suryansh Mishra on 19/11/25.
 //
 
-import CoreData
+internal import CoreData
 
 @MainActor
 struct PersistenceController {

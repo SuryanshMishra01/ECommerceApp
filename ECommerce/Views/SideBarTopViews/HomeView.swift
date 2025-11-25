@@ -13,6 +13,9 @@ struct HomeView: View {
     @EnvironmentObject var nm: NetworkManager
  
     var body: some View {
+        Text("WG ECommerce App")
+            .font(.title.bold())
+            .padding()
         ItemListiew(list: nm.products)
     
     }
