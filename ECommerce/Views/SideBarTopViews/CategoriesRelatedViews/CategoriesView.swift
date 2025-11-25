@@ -61,9 +61,11 @@ struct CategoriesView: View {
                         .padding()
                     }
                 }
+                
             }
             
-           
+            .background(Color.gray)
+            .cornerRadius(10)
           
           
         }

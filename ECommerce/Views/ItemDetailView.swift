@@ -10,6 +10,7 @@ import SwiftUI
 struct ItemDetailView: View {
     
     @EnvironmentObject var nm: NetworkManager
+    @EnvironmentObject var cartVM: CartViewModel
     let id: Int
     var product: Product {
         nm.products[id]
@@ -38,7 +39,10 @@ struct ItemDetailView: View {
                         Text("In Stock: \(product.stock)")
                         Spacer()
                         Button("Add to Cart"){
-                            
+                            let newItem = CartItem(context: cartVM.context)
+                            newItem.id = Int64(product.id)
+                            newItem.quantity = Int64(1)
+                            cartVM.addToCart(item: newItem)
                         }
                         .background(Color.orange)
                         .clipShape(RoundedRectangle(cornerRadius: 10.0))
@@ -86,4 +90,5 @@ struct ItemDetailView: View {
 #Preview {
     ItemDetailView(id: 3)
         .environmentObject(NetworkManager())
+    
 }

@@ -39,7 +39,7 @@ struct ItemListiew: View {
                                 Button("Add to Cart"){
                                     let newItem = CartItem(context: vm.context)
                                     newItem.id = Int64(product.id)
-                                    newItem.quantity = 1
+                                    newItem.quantity = Int64(1)
                                     vm.addToCart(item: newItem)
                                     
                                 }
