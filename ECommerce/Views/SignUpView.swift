@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct SigninView: View {
+struct SignUpView: View {
     var body: some View {
         HStack{
-            Image("EComm_BG")
+            Image("EComm_SignUp_BG")
                 .resizable()
             
                 .scaledToFit()
@@ -23,9 +23,14 @@ struct SigninView: View {
                     .font(.largeTitle.bold())
                 Text("Welcome to theWorld of ECommerce")
                     .foregroundColor(Color.blue)
+                
+                Text("Create User Account")
+                    .foregroundColor(Color.gray)
+                    .padding(.horizontal, 8)
+                    .padding(.top, 20)
                 TextField("Email", text: .constant(""))
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.top)
+                    .padding(.top,5)
                     .padding(.leading)
                     .padding(.trailing)
                 
@@ -36,7 +41,7 @@ struct SigninView: View {
                 Button("Proceed"){
                     
                 }
-                .frame(width: 250)
+                .frame(maxWidth: 250)
                 .background(Color.blue)
                 .cornerRadius(8)
                 
@@ -63,5 +68,5 @@ struct SigninView: View {
     }
 }
     #Preview {
-        SigninView()
+        SignUpView()
     }
