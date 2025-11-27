@@ -1,0 +1,69 @@
+//
+//  UserSessionViewModel.swift
+//  ECommerce
+//
+//  Created by Suryansh Mishra on 26/11/25.
+//
+
+import Foundation
+import SwiftUI
+
+import FirebaseAuth
+internal import Combine
+
+class UserSessionViewModel: ObservableObject {
+    
+    
+    @Published var email: String = ""
+    @Published var password: String = ""
+    @Published var alertMessage: String = ""
+    @Published var showAlert: Bool = false
+    
+    
+    func signUp(email: String, password: String) -> Bool{
+        if email.isEmpty || password.isEmpty {
+            alertMessage = "Please fill all the fields"
+            showAlert = true
+            return false
+        }
+        else if !isValidEmail(email) {
+            alertMessage = "Please enter a valid email"
+            showAlert = true
+            return false
+        }
+        else if !isValidPassword(password) {
+            alertMessage = "Password should be at least 8 characters long"
+            showAlert = true
+            return false
+        }
+        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.alertMessage = error.localizedDescription
+                    self.showAlert = true
+                }
+                return
+            }
+    
+          
+               print("User created: \(authResult?.user.email ?? "")")
+           
+           
+        }
+        return true
+        
+        
+    }
+    
+    func isValidPassword(_ password: String) -> Bool {
+        return password.count >= 8
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+}

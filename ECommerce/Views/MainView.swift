@@ -8,18 +8,23 @@
 import SwiftUI
 internal import CoreData
 
+
 struct MainView: View {
-   @EnvironmentObject var nm: NetworkManager
-    
+    @State private var selectedMenu: Menu? = .home
+
     var body: some View {
-        NavigationSplitView{
-            SideBarView()
-        }detail: {
-            HomeView()
+        NavigationSplitView {
+            SideBarView(selected: $selectedMenu)
+        } detail: {
+            if let menu = selectedMenu {
+                DetailView(type: menu)
+            } else {
+                Text("Select a menu")
+            }
         }
-            
     }
 }
+
 
 #Preview {
     MainView()

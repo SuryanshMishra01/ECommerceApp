@@ -7,61 +7,97 @@
 
 import SwiftUI
 
-struct SigninView: View {
-    var body: some View {
-        HStack{
-            Image("EComm_BG")
-                .resizable()
-            
-                .scaledToFit()
-                .frame(maxWidth: .infinity,maxHeight: .infinity)
-            
-            
-            
-            VStack{
-                Text("WG ECommerce App")
-                    .font(.largeTitle.bold())
-                Text("Welcome to theWorld of ECommerce")
-                    .foregroundColor(Color.blue)
-                TextField("Email", text: .constant(""))
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.top)
-                    .padding(.leading)
-                    .padding(.trailing)
-                
-                
-                SecureField("Password", text: .constant(""))
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-                Button("Proceed"){
-                    
-                }
-                .frame(width: 250)
-                .background(Color.blue)
-                .cornerRadius(8)
-                
-                HStack{
-                    Divider()
 
-                        .frame(maxWidth: .infinity, maxHeight: 1)
-                        .background(Color.gray)
+
+
+struct SignUpView: View {
+    @StateObject var userSessionVM = UserSessionViewModel()
+    @State private var path = NavigationPath()
+    
+    var body: some View {
+        NavigationStack(path: $path){
+            HStack{
+                Image("EComm_BG")
+                    .resizable()
                 
-                    Text("OR")
-                        .foregroundColor(Color.gray)
-                        .padding(.horizontal, 8)
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity,maxHeight: .infinity)
+                
+                
+                
+                VStack{
+                    Text("WG ECommerce App")
+                        .font(.largeTitle.bold())
+                    Text("Welcome to theWorld of ECommerce")
+                        .foregroundColor(Color.blue)
+                    TextField("Email", text: $userSessionVM.email)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.top)
+                        .padding(.leading)
+                        .padding(.trailing)
+                    
+                    
+                    SecureField("Password", text: $userSessionVM.password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+                    Button("Proceed"){
+                        if userSessionVM.signUp(email: userSessionVM.email, password: userSessionVM.password)
+                       {
+                            path.append(AppRoute.main)
+                        }
+                    }
+                    .frame(width: 250)
+                    .background(Color.green)
+                    .cornerRadius(8)
                    
-                    Divider()
-                        .frame(maxWidth: .infinity, maxHeight: 1)
-                        .background(Color.gray)
+                    HStack{
+                        Divider()
+                        
+                            .frame(maxWidth: .infinity, maxHeight: 1)
+                            .background(Color.gray)
+                        
+                        Text("OR")
+                            .foregroundColor(Color.gray)
+                            .padding(.horizontal, 8)
+                        
+                        Divider()
+                            .frame(maxWidth: .infinity, maxHeight: 1)
+                            .background(Color.gray)
+                        
+                        
+                    }
+                    Button("Signin existing account"){
+                        
+                    }
+                    .frame(width: 250)
+                    .background(Color.blue)
+                    .cornerRadius(8)
                     
+                    Spacer()
                     
+                    HStack{
+                        Image(systemName: "exclamationmark.circle")
+                        Text("Google and Apple ID Auth not available yet :(")
+                        
+                    }
+                    .frame(width: 300, alignment: .center)
                 }
-                .frame(width: 320, alignment: .center)
+                .padding()
+                .alert(userSessionVM.alertMessage, isPresented: $userSessionVM.showAlert) {
+                    Button("OK", role: .cancel) {}
+                }
             }
-            .padding()
+            .navigationDestination(for: AppRoute.self) { route in
+                          switch route {
+                          case .main:
+                              MainView()
+                          }
+            }
+            .padding(20)
         }
+        
     }
 }
     #Preview {
-        SigninView()
+        SignUpView()
     }

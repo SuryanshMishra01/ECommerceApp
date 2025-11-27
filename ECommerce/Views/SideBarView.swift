@@ -8,8 +8,7 @@
 import SwiftUI
 
 
-enum Menu: String, CaseIterable, Identifiable{
-    
+enum Menu: String, CaseIterable, Identifiable {
     case profile = "Profile"
     case home = "Home"
     case categories = "Categories"
@@ -17,55 +16,38 @@ enum Menu: String, CaseIterable, Identifiable{
     case orders = "Your Orders"
     case settings = "Settings"
     case support = "Support"
-    
-    var id: String {rawValue}
+
+    var id: String { rawValue }
+
+    var icon: String {
+        switch self {
+            case .profile: return "person.crop.circle"
+            case .home: return "house"
+            case .categories: return "list.bullet"
+            case .cart: return "cart"
+            case .orders: return "bag"
+            case .settings: return "gearshape"
+            case .support: return "questionmark.circle"
+        }
+    }
 }
+
 
 
 struct SideBarView: View {
-    
-    @State private var selected: Menu = .home
-    @EnvironmentObject var nm: NetworkManager
-    
-    var body: some View {
-        List(Menu.allCases, id: \.self){ menuItem in
-            
-            NavigationLink(destination:DetailView(type: menuItem)){
-                HStack{
-                    Text(menuItem.rawValue)
-                        .font(.headline)
-                    Spacer()
-                    switch  menuItem{
-                        case .profile:
-                            Image(systemName: "person.crop.circle")
-                    case .home:
-                            Image(systemName: "house")
-                        case .cart:
-                            Image(systemName: "cart")
-                        case .orders:
-                            Image(systemName: "bag")
-                      
-                        case .categories:
-                            Image(systemName: "list.bullet")
-                        case .settings:
-                            Image(systemName: "gearshape")
-                        case .support:
-                            Image(systemName: "questionmark.circle")
-                    }
-               
-                   
-                }
-             
-                
-            }
-        }
-       
-        
-    }
+    @Binding var selected: Menu?
 
+    var body: some View {
+        List(Menu.allCases, id: \.self, selection: $selected) { menuItem in
+            Label(menuItem.rawValue, systemImage: menuItem.icon)
+                .tag(menuItem)
+        }
+        .listStyle(SidebarListStyle())
+    }
 }
 
+
 #Preview {
-    SideBarView()
+    SideBarView(selected: .constant(.home))
         .environmentObject(NetworkManager())
 }

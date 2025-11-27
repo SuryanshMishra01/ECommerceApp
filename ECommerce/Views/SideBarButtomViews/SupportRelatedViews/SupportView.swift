@@ -8,56 +8,58 @@
 import SwiftUI
 
 struct SupportView: View {
+    @State private var showBugReport = false
+
     var body: some View {
-        VStack{
-            
-            Text("Support")
-                .font(.title.bold())
-            
-            
-            VStack(alignment: .leading){
-                NavigationLink{
-                    
-                }label:{
-                    HStack{
-                        Text("Contact Support")
-                        Spacer()
-                        Image(systemName: "headset")
+        Text("Support")
+            .font(.title.bold())
+            .padding()
+       
+            List{
+     
+                   Button{
+                            
+                        }label:{
+                            HStack{
+                                Text("Contact Support")
+                                Spacer()
+                                Image(systemName: "headset")
+                            }
+                        }
+                       Button{
+                            showBugReport = true
+                        }label:{
+                            HStack{
+                                Text("Report a bug")
+                                Spacer()
+                                Image(systemName: "ladybug")
+                            }
+                        }
+                        .sheet(isPresented: $showBugReport) {
+                            BugReportView()
+                        }
+                        Button{
+                            
+                        }label:{
+                            HStack{
+                                Text("Terms & Privacy Policy")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        Button{
+                            
+                        }label:{
+                            HStack{
+                                Text("About the app (version, build number, developer info)")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                        }
+                        
                     }
-                }
-                NavigationLink{
-                    BugReportView()
-                }label:{
-                    HStack{
-                        Text("Report a bug")
-                        Spacer()
-                        Image(systemName: "ladybug")
-                    }
-                }
-                NavigationLink{
-                    
-                }label:{
-                    HStack{
-                        Text("Terms & Privacy Policy")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                    }
-                }
-                NavigationLink{
-                    
-                }label:{
-                    HStack{
-                        Text("About the app (version, build number, developer info)")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                    }
-                }
-                
-            }
-            .padding(.leading, 50)
-            .padding(.trailing, 100)
-        }
-        .padding()
+            .padding()
+
     }
 }
 

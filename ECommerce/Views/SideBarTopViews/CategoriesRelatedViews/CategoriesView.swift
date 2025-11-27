@@ -14,10 +14,9 @@ struct CategoriesView: View {
     @EnvironmentObject var nm: NetworkManager
     
     var body: some View {
-        Text("ECommerce Application")
         NavigationStack{
-            VStack{
-                HStack{
+     
+            List{
                     NavigationLink{
                         CategoryItemsView(category: K.Category.beauty)
                     }label:{
@@ -38,8 +37,8 @@ struct CategoriesView: View {
                         }
                         .padding()
                     }
-                }
-                HStack{
+                
+                
                     NavigationLink{
                         CategoryItemsView(category: K.Category.fragrance)
                     }label:{
@@ -60,14 +59,13 @@ struct CategoriesView: View {
                         }
                         .padding()
                     }
-                }
+            
                 
             }
             
-            .background(Color.gray)
-            .cornerRadius(10)
+         
           
-          
+            .navigationTitle(Text("Categories"))
         }
       
     }

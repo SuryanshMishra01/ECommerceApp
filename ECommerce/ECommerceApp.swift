@@ -7,9 +7,33 @@
 
 import SwiftUI
 internal import CoreData
+import FirebaseCore
+
+
+
+
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+  func applicationDidFinishLaunching(_ notification: Notification) {
+      
+      FirebaseApp.configure()
+  }
+}
+
+
+enum AppRoute: Hashable {
+    case main
+      
+}
+
 
 @main
 struct ECommerceApp: App {
+    
+    // register app delegate for Firebase setup
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
+
     let persistenceController = PersistenceController.shared
     @StateObject var nm =  NetworkManager()
     @StateObject var profileVM = ProfileViewModel(context: PersistenceController.shared.container.viewContext)
@@ -18,7 +42,7 @@ struct ECommerceApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
+            SignUpView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .environmentObject(nm)
