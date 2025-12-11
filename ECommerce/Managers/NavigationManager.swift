@@ -16,24 +16,17 @@ final class NavigationManager: ObservableObject{
     enum AuthFlow: Hashable, Codable{
         case _main
         case login
-      
+      case category(String)
         
     }
     
-    
-    enum CategoryFlow: Hashable, Codable{
-        case bueaty
-        case furniture
-        case fragrance
-        case grocery
-    }
-  
+      
     
     
     @Published var currentView = NavigationPath()
     
     
-    func navigate(to destination: NavFlow){
+    func navigate(to destination: AuthFlow){
         currentView.append(destination)
         
     }

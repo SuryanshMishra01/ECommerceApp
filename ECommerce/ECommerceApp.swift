@@ -27,11 +27,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 @main
 struct ECommerceApp: App {
-
+    
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
+    
     let persistenceController = PersistenceController.shared
-
+    
     @StateObject var nm: NetworkManager
     @StateObject var profileVM: ProfileViewModel
     @StateObject var cartVM: CartViewModel
@@ -39,46 +39,44 @@ struct ECommerceApp: App {
     //Navigation
     
     @StateObject var navigation = NavigationManager()
-
+    
     init() {
         let context = PersistenceController.shared.container.viewContext
-
+        
         // Create independent objects first
         let networkManager = NetworkManager()
         _nm = StateObject(wrappedValue: networkManager)
-
+        
         let profile = ProfileViewModel(context: context)
         _profileVM = StateObject(wrappedValue: profile)
-
+        
         let cart = CartViewModel(context: context, nm: networkManager)
         _cartVM = StateObject(wrappedValue: cart)
     }
-
+    
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path:  $navigation.currentView){
+            NavigationStack(path: $navigation.currentView) {
                 SignUpView()
-                    .navigationDestination(for: NavigationManager.AuthFlow.self) {destination in
-                        switch destination{
+                    .navigationDestination(for: NavigationManager.AuthFlow.self) { destination in
+                        switch destination {
                         case .login:
                             LoginView()
                         case ._main:
                             MainView()
-                      
-
-                        
+                        case .category(let cat):
+                            CategoryItemsView(category: cat)
                         }
-                        
+                    }
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                    .environmentObject(nm)
+                    .environmentObject(cartVM)
+                    .environmentObject(profileVM)
+                    .environmentObject(navigation)
+                    .task {
+                        try? await nm.fetchData()
                     }
             }
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(nm)
-                .environmentObject(cartVM)
-                .environmentObject(profileVM)
-                .environmentObject(navigation)
-                .task {
-                    try? await nm.fetchData()
-                }
         }
     }
 }
