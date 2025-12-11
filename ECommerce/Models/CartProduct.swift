@@ -13,4 +13,5 @@ struct CartProduct: Identifiable, Hashable{
     let title: String
     let price: Double
     let images: [String]
+    var quantity: Int
 }

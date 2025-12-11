@@ -8,6 +8,7 @@
 import SwiftUI
 internal import CoreData
 import FirebaseCore
+internal import Combine
 
 
 
@@ -21,39 +22,63 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 
-enum AppRoute: Hashable {
-    case main
-      
-}
+
 
 
 @main
 struct ECommerceApp: App {
-    
-    // register app delegate for Firebase setup
+
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-
     let persistenceController = PersistenceController.shared
-    @StateObject var nm =  NetworkManager()
-    @StateObject var profileVM = ProfileViewModel(context: PersistenceController.shared.container.viewContext)
-    @StateObject var cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext)
 
+    @StateObject var nm: NetworkManager
+    @StateObject var profileVM: ProfileViewModel
+    @StateObject var cartVM: CartViewModel
+    
+    //Navigation
+    
+    @StateObject var navigation = NavigationManager()
+
+    init() {
+        let context = PersistenceController.shared.container.viewContext
+
+        // Create independent objects first
+        let networkManager = NetworkManager()
+        _nm = StateObject(wrappedValue: networkManager)
+
+        let profile = ProfileViewModel(context: context)
+        _profileVM = StateObject(wrappedValue: profile)
+
+        let cart = CartViewModel(context: context, nm: networkManager)
+        _cartVM = StateObject(wrappedValue: cart)
+    }
 
     var body: some Scene {
         WindowGroup {
-            SignUpView()
+            NavigationStack(path:  $navigation.currentView){
+                SignUpView()
+                    .navigationDestination(for: NavigationManager.AuthFlow.self) {destination in
+                        switch destination{
+                        case .login:
+                            LoginView()
+                        case ._main:
+                            MainView()
+                      
+
+                        
+                        }
+                        
+                    }
+            }
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 .environmentObject(nm)
                 .environmentObject(cartVM)
                 .environmentObject(profileVM)
-                .task{
-                    try? await self.nm.fetchData()
-
+                .environmentObject(navigation)
+                .task {
+                    try? await nm.fetchData()
                 }
         }
-        
     }
 }
-

@@ -14,17 +14,18 @@ class CartViewModel: ObservableObject {
     
     
     let context: NSManagedObjectContext
+    var nm: NetworkManager
     
     @Published var cart: [CartItem] = []
     
-    init(context: NSManagedObjectContext){
+    init(context: NSManagedObjectContext, nm: NetworkManager){
         self.context = context
+        self.nm = nm
     }
     
     
     func loadCart(){
         let result = CartItem.fetchRequest()
-        context.perform {
             
             do{
                 if let cart = try self.context.fetch(result) as [CartItem]?{
@@ -36,7 +37,7 @@ class CartViewModel: ObservableObject {
             }catch{
                 print("Error in loading cart ...")
             }
-        }
+        
     }
     
     func removeFromCart(id: Int){
@@ -47,9 +48,15 @@ class CartViewModel: ObservableObject {
         
         do{
             if let cartItem = try self.context.fetch(request).first{
-                self.context.delete(cartItem)
+                if cartItem.quantity == 1{
+                    self.context.delete(cartItem)
+                   
+                }else{
+                    cartItem.quantity = cartItem.quantity - 1
+                }
                 try self.context.save()
                 loadCart()
+                nm.addToMainList(id: id)
             }
             
         }catch{
@@ -58,14 +65,22 @@ class CartViewModel: ObservableObject {
     }
         
     func addToCart(item: CartItem){
+        
+        let request = CartItem.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %d", item.id)
+        do{
+        if let cartItem = try self.context.fetch(request).first{
+            cartItem.quantity = cartItem.quantity   + 1                     // (1 = item.quantity)
+        }else{
             let newItem = CartItem(context: self.context)
             newItem.id = Int64(item.id)
             newItem.quantity = Int64(item.quantity)
-            do{
+        }
+     
                try PersistenceController.shared.save(context: self.context)
                 print("Added Item to Cart")
                 
-            }catch{
+        }catch{
                 print("Error adding item to Cart")
             }
         }

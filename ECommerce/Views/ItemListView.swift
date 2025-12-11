@@ -65,7 +65,7 @@ struct ItemListiew: View {
 
 #Preview {
     let nm = NetworkManager()
-    let cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext)
+    let cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext, nm: nm)
 
     ItemListiew(list: nm.products)
         .environmentObject(cartVM)

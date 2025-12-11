@@ -14,6 +14,7 @@ struct SelectableCartItemView: View {
     
     var body: some View {
         VStack(alignment: .leading){
+           
             fetchAsyncImage(from: URL(string: product.images.first!)!)
                 .frame(width: 100, height: 100,alignment: .leading)
             HStack{
@@ -40,7 +41,8 @@ struct SelectableCartItemView: View {
            id: 1,
            title: "Test Product",
            price: 99.99,
-           images: ["https://cdn.dummyjson.com/product-images/groceries/apple/1.webp"]
+           images: ["https://cdn.dummyjson.com/product-images/groceries/apple/1.webp"],
+           quantity: 2
        )
     SelectableCartItemView(product: mock, isSelected: true)
        

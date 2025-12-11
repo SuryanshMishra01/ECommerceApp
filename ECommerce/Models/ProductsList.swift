@@ -20,12 +20,12 @@ struct Product: Codable, Identifiable{
     let price: Double
     let discountPercentage: Double
     let rating: Double
-    let stock: Int
+  var stock: Int
     let tags: [String]
     let brand: String?
     let sku: String
     let weight: Int?
-    let availabilityStatus: String
+  var availabilityStatus: String
     let reviews: [Review]?
     let images: [String]
     let thumbnail: String

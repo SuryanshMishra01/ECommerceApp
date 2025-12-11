@@ -66,4 +66,41 @@ class UserSessionViewModel: ObservableObject {
         return emailPred.evaluate(with: email)
     }
     
+    
+    
+    func logIn(email: String, password: String) -> Bool{
+        if email.isEmpty || password.isEmpty {
+            alertMessage = "Please fill all the fields"
+            showAlert = true
+            return false
+        }
+        else if !isValidEmail(email) {
+            alertMessage = "Please enter a valid email"
+            showAlert = true
+            return false
+        }
+        else if !isValidPassword(password) {
+            alertMessage = "Password should be at least 8 characters long"
+            showAlert = true
+            return false
+        }
+        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.alertMessage = error.localizedDescription
+                    self.showAlert = true
+                }
+                return
+            }
+    
+          
+               print("User created: \(authResult?.user.email ?? "")")
+           
+           
+        }
+        return true
+        
+        
+    }
+   
 }

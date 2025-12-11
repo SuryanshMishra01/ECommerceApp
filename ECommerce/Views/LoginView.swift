@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-struct SwiftUIView: View {
+struct LoginView: View {
+    
+    @StateObject var userSessionVM = UserSessionViewModel()
+    @EnvironmentObject var navigation: NavigationManager
+    
     var body: some View {
         HStack{
             VStack{
@@ -15,24 +19,28 @@ struct SwiftUIView: View {
                     .font(.largeTitle.bold())
                     .padding(.vertical,5)
                     .foregroundColor(.secondary)
-                TextField("Email", text: .constant(""))
+                TextField("Email", text: $userSessionVM.email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top)
                 
                     .padding(.horizontal, 8)
                 
-                SecureField("Password", text: .constant(""))
+                SecureField("Password", text: $userSessionVM.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(8)
                 Button("Continue"){
-                    
+                    if userSessionVM.logIn(email: userSessionVM.email, password: userSessionVM.password){
+                        navigation.navigate(to: ._main)
+                    }
                 }
                 .frame(maxWidth: 250)
                 .background(Color.green)
                 .cornerRadius(8)
                 HStack{
                     Text("New here?")
-                    Text("Create an account")
+                    Button("Create an account"){
+                        navigation.navigateBack()
+                    }
                         .foregroundColor(.blue)
                 }
                 
@@ -59,5 +67,5 @@ struct SwiftUIView: View {
 }
 
 #Preview {
-    SwiftUIView()
+        LoginView()
 }

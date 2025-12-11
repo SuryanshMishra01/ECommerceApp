@@ -61,14 +61,19 @@ struct CartItemListiew: View {
             }
         }
         .onAppear {
-            cartProductList = productList.map { product in
-                CartProduct(
-                    id: product.id,
-                    title: product.title,
-                    price: product.price,
-                    images: product.images
-                )
+            cartProductList = productList.compactMap { product in
+                if let index = cartVM.cart.firstIndex(where: { $0.id == product.id }) {
+                    return CartProduct(
+                        id: product.id,
+                        title: product.title,
+                        price: product.price,
+                        images: product.images,
+                        quantity: Int(cartVM.cart[index].quantity)
+                    )
+                }
+                return nil
             }
+
         }
 
         
@@ -84,7 +89,7 @@ struct CartItemListiew: View {
 
 #Preview {
     let nm = NetworkManager()
-    let cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext)
+    let cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext, nm: NetworkManager())
     
 
     CartItemListiew()
