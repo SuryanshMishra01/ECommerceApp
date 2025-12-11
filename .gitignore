@@ -1,0 +1,29 @@
+### Xcode ###
+
+xcuserdata/
+xcshareddata/WorkspaceSettings.xcsettings
+*.xcuserstate
+
+### Builds   ###
+
+DerivedData/
+build/
+Build/
+*.ipa
+
+
+
+### SPM ###
+.swiftpm/
+.build/
+
+
+### User files ###
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+
+
+### MacOS ###
+.DS_Store
