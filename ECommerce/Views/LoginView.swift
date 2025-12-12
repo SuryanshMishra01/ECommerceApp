@@ -29,9 +29,7 @@ struct LoginView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(8)
                 Button("Continue"){
-                    if userSessionVM.logIn(email: userSessionVM.email, password: userSessionVM.password){
-                        navigation.navigate(to: ._main)
-                    }
+                  
                 }
                 .frame(maxWidth: 250)
                 .background(Color.green)

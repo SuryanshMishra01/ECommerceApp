@@ -28,23 +28,20 @@ class ProfileViewModel: ObservableObject {
     
     init(context: NSManagedObjectContext){
         self.context = context
-        loadProfile()
+        
     }
    
     
-    func loadProfile(){
+    func loadProfile(byUID: String){
         let result = Profile.fetchRequest()
+        result.predicate = NSPredicate(format: "uid == %@", byUID)
+        result.fetchLimit = 1
         do{
             
             if let existing = try context.fetch(result).first {
                 print(existing)
-                self.profile = existing
-                self.fullName = existing.fullName ?? ""
-                self.email = existing.email ?? ""
-                self.phone = existing.phone ?? ""
-                self.street = existing.street ?? ""
-                self.city = existing.city ?? ""
-                self.pincode = existing.pincode ?? ""
+               apply(existing)
+            
             }else{
                 let newProfile = Profile(context: context)
                 self.profile = newProfile
@@ -64,7 +61,9 @@ class ProfileViewModel: ObservableObject {
     
     
     func resetChanges(){
-        loadProfile()
+        if let profile = self.profile{
+            apply(profile)
+        }
     }
     
     func saveChanges(){
@@ -86,6 +85,23 @@ class ProfileViewModel: ObservableObject {
                 print("Save error:", error.localizedDescription)
             }
         
+    }
+    
+    
+    private func apply (_ profile: Profile){
+        self.profile = profile
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {return}
+            
+            self.fullName = profile.fullName ?? ""
+            self.email = profile.email ?? ""
+            self.phone = profile.phone ?? ""
+            self.street = profile.street ?? ""
+            self.city = profile.city ?? ""
+            self.pincode = profile.pincode ?? ""
+            
+            
+        }
     }
     
         

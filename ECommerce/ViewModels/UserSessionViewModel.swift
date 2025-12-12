@@ -20,37 +20,45 @@ class UserSessionViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     
     
-    func signUp(email: String, password: String) -> Bool{
+    func signUp(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
         if email.isEmpty || password.isEmpty {
             alertMessage = "Please fill all the fields"
             showAlert = true
-            return false
+            completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey:"Missing fields"])))
+            return
+
         }
         else if !isValidEmail(email) {
             alertMessage = "Please enter a valid email"
             showAlert = true
-            return false
+            completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey:"Wrong fields"])))
+            return
         }
         else if !isValidPassword(password) {
             alertMessage = "Password should be at least 8 characters long"
             showAlert = true
-            return false
+            completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey: "Short Password"])))
+            return
         }
-        Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+        Auth.auth().createUser(withEmail: email, password: password){ authResult, error in
             if let error = error {
                 DispatchQueue.main.async {
                     self.alertMessage = error.localizedDescription
                     self.showAlert = true
                 }
+                completion(.failure(error))
                 return
+            
             }
-    
+            if let auth = authResult {
+                print("User created: \(auth.user.email ?? "")")
+            
+                completion(.success(auth))
+            }
           
-               print("User created: \(authResult?.user.email ?? "")")
-           
-           
+              
+
         }
-        return true
         
         
     }
@@ -68,21 +76,24 @@ class UserSessionViewModel: ObservableObject {
     
     
     
-    func logIn(email: String, password: String) -> Bool{
+    func logIn(email: String, password: String, completion: @escaping (Result<AuthDataResult,Error>) -> Void) {
         if email.isEmpty || password.isEmpty {
             alertMessage = "Please fill all the fields"
             showAlert = true
-            return false
+            completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey:"Missing fields"])))
+            return
         }
         else if !isValidEmail(email) {
             alertMessage = "Please enter a valid email"
             showAlert = true
-            return false
+            completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey:"Wrong fields"])))
+            return
         }
         else if !isValidPassword(password) {
             alertMessage = "Password should be at least 8 characters long"
             showAlert = true
-            return false
+            completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey: "Short Password"])))
+            return
         }
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
@@ -90,15 +101,21 @@ class UserSessionViewModel: ObservableObject {
                     self.alertMessage = error.localizedDescription
                     self.showAlert = true
                 }
+                completion(.failure(error))
+                
                 return
             }
     
           
-               print("User created: \(authResult?.user.email ?? "")")
+             
+            if let auth = authResult{
+                print("User created: \(auth.user.email ?? "")")
+                completion(.success(auth))
+            }
            
            
         }
-        return true
+      
         
         
     }

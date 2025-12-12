@@ -41,10 +41,6 @@ struct SignUpView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 Button("Proceed"){
-                    if userSessionVM.signUp(email: userSessionVM.email, password: userSessionVM.password)
-                    {
-                        navigation.navigate(to: ._main)
-                    }
                 }
                 .frame(width: 250)
                 .background(Color.green)
