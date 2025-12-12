@@ -68,15 +68,17 @@ struct ECommerceApp: App {
                             CategoryItemsView(category: cat)
                         }
                     }
-                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                    .environmentObject(nm)
-                    .environmentObject(cartVM)
-                    .environmentObject(profileVM)
-                    .environmentObject(navigation)
+            }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            .environmentObject(nm)
+            .environmentObject(cartVM)
+            .environmentObject(profileVM)
+            .environmentObject(navigation)
+                
                     .task {
                         try? await nm.fetchData()
                     }
-            }
+          
         }
     }
 }

@@ -12,7 +12,6 @@ import SwiftUI
 
 struct SignUpView: View {
     @StateObject var userSessionVM = UserSessionViewModel()
-    @State private var path = NavigationPath()
     @EnvironmentObject var navigation: NavigationManager
     
     var body: some View {
@@ -96,4 +95,5 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
+        .environmentObject(NavigationManager())
 }

@@ -16,7 +16,7 @@ final class NavigationManager: ObservableObject{
     enum AuthFlow: Hashable, Codable{
         case _main
         case login
-      case category(String)
+        case category(cat: String)
         
     }
     

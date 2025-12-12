@@ -16,13 +16,13 @@ class ProfileViewModel: ObservableObject {
     private let context: NSManagedObjectContext
     private var profile: Profile?
     
-    @Published var fullName: String = "Suryansh Mishra"
-    @Published var email: String = "suryansh@example.com"
-    @Published var phone: String = "+91 1234567890"
+    @Published var fullName: String = ""
+    @Published var email: String = ""
+    @Published var phone: String = ""
 
-    @Published var street: String = "123, ABC Road"
-    @Published var city: String = "Noida"
-    @Published var pincode: String = "201305"
+    @Published var street: String = ""
+    @Published var city: String = ""
+    @Published var pincode: String = ""
 
  
     
