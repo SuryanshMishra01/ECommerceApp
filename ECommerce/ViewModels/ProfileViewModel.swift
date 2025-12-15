@@ -16,6 +16,7 @@ class ProfileViewModel: ObservableObject {
     private let context: NSManagedObjectContext
     private var profile: Profile?
     
+    @Published var uid: String = ""
     @Published var fullName: String = ""
     @Published var email: String = ""
     @Published var phone: String = ""
@@ -32,27 +33,38 @@ class ProfileViewModel: ObservableObject {
     }
    
     
-    func loadProfile(byUID: String){
+    func loadProfile(byUID: String,byEmail: String){
         let result = Profile.fetchRequest()
         result.predicate = NSPredicate(format: "uid == %@", byUID)
         result.fetchLimit = 1
         do{
             
             if let existing = try context.fetch(result).first {
+                self.profile = existing
                 print(existing)
                apply(existing)
             
             }else{
                 let newProfile = Profile(context: context)
                 self.profile = newProfile
-                newProfile.fullName = self.fullName
-                newProfile.email = self.email
-                newProfile.phone = self.phone
-                newProfile.street = self.street
-                newProfile.city = self.city
-                newProfile.pincode = self.pincode
-          
-                saveChanges()
+                newProfile.uid = byUID
+                newProfile.email = byEmail
+                newProfile.fullName = ""
+              
+                newProfile.phone = ""
+                newProfile.street = ""
+                newProfile.city = ""
+                newProfile.pincode =  ""
+                
+                
+                do {
+                    try PersistenceController.shared.save(context: self.context)   // Update CoreData
+                print("Profile saved")
+                } catch {
+                    print("Save error:", error.localizedDescription)
+                }
+                apply(newProfile)                // Update UI
+                
             }
         }catch{
             print("Error in loading profile: \(error.localizedDescription)")
@@ -69,9 +81,10 @@ class ProfileViewModel: ObservableObject {
     func saveChanges(){
 
             guard let profile = profile else { return }
-
+            
+         
             profile.fullName = fullName
-            profile.email = email
+         
             profile.phone = phone
             profile.street = street
             profile.city = city
@@ -92,7 +105,7 @@ class ProfileViewModel: ObservableObject {
         self.profile = profile
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {return}
-            
+            self.uid = profile.uid ?? ""
             self.fullName = profile.fullName ?? ""
             self.email = profile.email ?? ""
             self.phone = profile.phone ?? ""

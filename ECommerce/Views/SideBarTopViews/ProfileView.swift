@@ -40,7 +40,7 @@ struct ProfileView: View {
                     // MARK: Account Info
                     Section("Account Information") {
                         TextField("Full Name", text: $vm.fullName)
-                        TextField("Email", text: $vm.email)
+                        TextField("Email" , text: .constant(vm.email) )
                         TextField("Phone", text: $vm.phone)
                     }
                     

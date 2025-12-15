@@ -18,18 +18,22 @@ struct PersistenceController {
 
     init() {
         container = NSPersistentContainer(name: "ECommerce")
-     
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-               
-                print("Error loading persistent store: \(error.localizedDescription)")
-            }
-        })
-        container.viewContext.automaticallyMergesChangesFromParent = true
 
-        
+        let description = container.persistentStoreDescriptions.first
+        description?.setOption(true as NSNumber,
+                               forKey: NSMigratePersistentStoresAutomaticallyOption)
+        description?.setOption(true as NSNumber,
+                               forKey: NSInferMappingModelAutomaticallyOption)
+
+        container.loadPersistentStores { storeDescription, error in
+            if let error = error as NSError? {
+                fatalError("Core Data failed: \(error), \(error.userInfo)")
+            }
+        }
+
+        container.viewContext.automaticallyMergesChangesFromParent = true
     }
-    
+
     func save (context: NSManagedObjectContext) throws{
         if context.hasChanges {
             do {

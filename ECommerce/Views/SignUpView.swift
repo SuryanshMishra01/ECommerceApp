@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 
 
@@ -13,6 +14,7 @@ import SwiftUI
 struct SignUpView: View {
     @StateObject var userSessionVM = UserSessionViewModel()
     @EnvironmentObject var navigation: NavigationManager
+    @EnvironmentObject var profileVM: ProfileViewModel
     
     var body: some View {
         
@@ -40,9 +42,28 @@ struct SignUpView: View {
                 SecureField("Password", text: $userSessionVM.password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                Button("Proceed"){
+                Button("Proceed") {
+                    userSessionVM.signUp(
+                        email: userSessionVM.email,
+                        password: userSessionVM.password
+                    ) { result in
+                        switch result {
+                        case .success(let authResult):
+                            let uid = authResult.user.uid
+                            let email = authResult.user.email ?? ""
+
+                            DispatchQueue.main.async {
+                                profileVM.loadProfile(byUID: uid, byEmail: email)
+                            }
+                            navigation.navigate(to: ._main)
+
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
                 }
                 .frame(width: 250)
+
                 .background(Color.green)
                 .cornerRadius(8)
                 

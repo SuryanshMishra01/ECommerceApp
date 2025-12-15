@@ -7,12 +7,12 @@
     <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
         <attribute name="city" optional="YES" attributeType="String"/>
         <attribute name="darkMode" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="email" attributeType="String"/>
-        <attribute name="fullName" attributeType="String"/>
+        <attribute name="email" attributeType="String" defaultValueString="&quot;&quot;"/>
+        <attribute name="fullName" optional="YES" attributeType="String"/>
         <attribute name="notifications" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="phone" attributeType="String"/>
-        <attribute name="pincode" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="pincode" optional="YES" attributeType="String"/>
         <attribute name="street" optional="YES" attributeType="String"/>
-        <attribute name="uid" attributeType="String"/>
+        <attribute name="uid" attributeType="String" defaultValueString="&quot;&quot;"/>
     </entity>
 </model>
