@@ -6,13 +6,13 @@
 //
 import Foundation
 
-struct ProductsList: Codable{
-    let products: [Product]
+struct ProductsResponseDTO: Codable{
+    let products: [ProductDTO]
 }
 
 
 
-struct Product: Codable, Identifiable{
+struct ProductDTO: Codable, Identifiable{
     let id: Int
     let title: String
     let description: String
@@ -20,13 +20,13 @@ struct Product: Codable, Identifiable{
     let price: Double
     let discountPercentage: Double
     let rating: Double
-  var stock: Int
+    var stock: Int
     let tags: [String]
     let brand: String?
     let sku: String
     let weight: Int?
-  var availabilityStatus: String
-    let reviews: [Review]?
+    var availabilityStatus: String
+    let reviews: [ReviewDTO]?
     let images: [String]
     let thumbnail: String
 
@@ -36,7 +36,7 @@ struct Product: Codable, Identifiable{
 
 
 
-struct Review: Codable, Identifiable {
+struct ReviewDTO: Codable, Identifiable {
      
     var id: String  {date}
     let rating: Double

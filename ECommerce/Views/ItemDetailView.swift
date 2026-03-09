@@ -13,7 +13,7 @@ struct ItemDetailView: View {
     @EnvironmentObject var nm: NetworkManager
     @EnvironmentObject var cartVM: CartViewModel
     let id: Int
-    var product: Product {
+    var product: ProductDTO {
         nm.products[id]
     }
     

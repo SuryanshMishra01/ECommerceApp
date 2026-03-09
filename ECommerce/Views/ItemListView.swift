@@ -27,9 +27,9 @@ struct ItemListiew: View {
             LazyVGrid(columns: self.columns, spacing: 10){
                 ForEach(productList, id: \.id){ product in
                     VStack(alignment: .leading){
-                        fetchAsyncImage(from: URL(string: product.images.first!)!)
+//                        fetchAsyncImage(from: URL(string: product.images?.first)!)
                         HStack{
-                            Text(product.title)
+                            Text(product.title!)
                             Text(String(format: "$%.2f",product.price.roundedUp(toPlaces: 2)))
                         }
                         .padding()

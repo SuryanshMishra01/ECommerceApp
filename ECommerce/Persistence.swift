@@ -6,17 +6,20 @@
 //
 
 internal import CoreData
+import os
 
 @MainActor
 struct PersistenceController {
+    let logger = Logger(subsystem: "com.wg.ECommerce", category: "PersistenceController")
+    
     static let shared = PersistenceController()
 
- 
-
     let container: NSPersistentContainer
-  
+    var context: NSManagedObjectContext {
+        return container.viewContext
+    }
 
-    init() {
+    private init() {
         container = NSPersistentContainer(name: "ECommerce")
 
         let description = container.persistentStoreDescriptions.first
@@ -39,7 +42,7 @@ struct PersistenceController {
             do {
                 try context.save()
             } catch {
-                print("Unresolved error \(error)")
+                logger.error("Unresolved error \(error)")
             }
         }
         
