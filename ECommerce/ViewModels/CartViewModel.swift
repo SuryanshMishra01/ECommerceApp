@@ -12,32 +12,23 @@ internal import Combine
 
 class CartViewModel: ObservableObject {
     
-    
-    let context: NSManagedObjectContext
-    var nm: NetworkManager
-    
+    let repository = CartRepository()
     @Published var cart: [CartItem] = []
+    //Error handling
+    @Published var errorMessage: String? = nil
     
-    init(context: NSManagedObjectContext, nm: NetworkManager){
-        self.context = context
-        self.nm = nm
+
+    func addProduct(_ product: ProductModel){
+        cartVM.addToCart(product)
+        cartVM.loadCart(for: "suryansh")
     }
     
-    
-    func loadCart(){
-        let result = CartItem.fetchRequest()
-            
-            do{
-                if let cart = try self.context.fetch(result) as [CartItem]?{
-                    print(cart)
-                    DispatchQueue.main.async {
-                        self.cart = cart
-                    }
-                }
-            }catch{
-                print("Error in loading cart ...")
-            }
-        
+    func loadCart(for user: String){
+        do{
+            try repository.fetchCartItems(for: user)
+        }catch{
+            errorMessage = error.localizedDescription
+        }
     }
     
     func removeFromCart(id: Int){

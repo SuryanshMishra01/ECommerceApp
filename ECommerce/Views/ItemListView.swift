@@ -3,14 +3,13 @@
 //  ECommerce
 //
 //  Created by Suryansh Mishra on 24/11/25.
-//
+`//
 
 import SwiftUI
 internal import CoreData
 
 struct ItemListiew: View {
-    @EnvironmentObject var nm: NetworkManager
-    @EnvironmentObject var vm : CartViewModel
+ 
     private var productList: [Product] = []
     
     init(list: [Product]){
@@ -64,11 +63,12 @@ struct ItemListiew: View {
 }
 
 #Preview {
-    let nm = NetworkManager()
-    let cartVM = CartViewModel(context: PersistenceController.shared.container.viewContext, nm: nm)
+  
+   
 
     ItemListiew(list: nm.products)
         .environmentObject(cartVM)
         .environmentObject(nm)
     
 }
+`

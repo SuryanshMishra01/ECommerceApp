@@ -7,15 +7,14 @@
 
 import Foundation
 import SwiftUI
-
+import os
 import FirebaseAuth
 internal import Combine
 
 class UserSessionViewModel: ObservableObject {
+    let logger = Logger(subsystem: "com.wg.ECommerce", category: "userSession")
     
-    
-    @Published var email: String = ""
-    @Published var password: String = ""
+    @Published var currentUserID: UUID? = nil
     @Published var alertMessage: String = ""
     @Published var showAlert: Bool = false
     
@@ -42,7 +41,7 @@ class UserSessionViewModel: ObservableObject {
         }
         Auth.auth().createUser(withEmail: email, password: password){ authResult, error in
             if let error = error {
-                DispatchQueue.main.async {
+                Task{ @MainActor in
                     self.alertMessage = error.localizedDescription
                     self.showAlert = true
                 }
@@ -51,8 +50,8 @@ class UserSessionViewModel: ObservableObject {
             
             }
             if let auth = authResult {
-                print("User created: \(auth.user.email ?? "")")
-            
+                self.logger.info("User created: \(auth.user.email ?? "")")
+                
                 completion(.success(auth))
             }
           

@@ -12,16 +12,16 @@ import FirebaseAuth
 
 
 struct SignUpView: View {
-    @StateObject var userSessionVM = UserSessionViewModel()
+   @EnvironmentObject var userSessionVM: UserSessionViewModel
     @EnvironmentObject var navigation: NavigationManager
-    @EnvironmentObject var profileVM: ProfileViewModel
-    
+  
+    @State private var email: String = ""
+    @State private var password: String = ""
     var body: some View {
         
         HStack{
             Image("EComm_SignUp_BG")
                 .resizable()
-            
                 .scaledToFit()
                 .frame(maxWidth: .infinity,maxHeight: .infinity)
             
@@ -32,19 +32,21 @@ struct SignUpView: View {
                     .font(.largeTitle.bold())
                 Text("Welcome to theWorld of ECommerce")
                     .foregroundColor(Color.blue)
-                TextField("Email", text: $userSessionVM.email)
+                TextField("First Name", text: $firstName)
+                TextField("Last Name")
+                TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top)
                     .padding(.leading)
                     .padding(.trailing)
                 
                 
-                SecureField("Password", text: $userSessionVM.password)
+                SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 Button("Proceed") {
                     userSessionVM.signUp(
-                        email: userSessionVM.email,
+                        email: $email,
                         password: userSessionVM.password
                     ) { result in
                         switch result {

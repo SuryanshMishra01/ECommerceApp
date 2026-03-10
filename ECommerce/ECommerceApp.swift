@@ -32,27 +32,13 @@ struct ECommerceApp: App {
     
     let persistenceController = PersistenceController.shared
     
-    @StateObject var nm: NetworkManager
-    @StateObject var profileVM: ProfileViewModel
-    @StateObject var cartVM: CartViewModel
-    
+    @StateObject var homeVM = HomeViewModel()
+  
     //Navigation
     
     @StateObject var navigation = NavigationManager()
     
-    init() {
-        let context = PersistenceController.shared.container.viewContext
-        
-        // Create independent objects first
-        let networkManager = NetworkManager()
-        _nm = StateObject(wrappedValue: networkManager)
-        
-        let profile = ProfileViewModel(context: context)
-        _profileVM = StateObject(wrappedValue: profile)
-        
-        let cart = CartViewModel(context: context, nm: networkManager)
-        _cartVM = StateObject(wrappedValue: cart)
-    }
+ 
     
     var body: some Scene {
         WindowGroup {
@@ -63,16 +49,13 @@ struct ECommerceApp: App {
                         case .login:
                             LoginView()
                         case ._main:
-                            MainView()
+                            HomeView()
                         case .category(let cat):
                             CategoryItemsView(category: cat)
                         }
                     }
             }
-            .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            .environmentObject(nm)
-            .environmentObject(cartVM)
-            .environmentObject(profileVM)
+            .environmentObject(homeVM)
             .environmentObject(navigation)
                 
                     .task {

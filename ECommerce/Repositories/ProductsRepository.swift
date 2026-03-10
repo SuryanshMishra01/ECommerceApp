@@ -14,6 +14,15 @@ class ProductsRepository {
     let context = PersistenceController.shared.context
     
     func syncProducts() async throws{
+        
+        let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+
+       let count = try context.count(for: request)
+
+       // If products already exist, skip API call
+       if count > 0 {
+           return
+       }
         do{
             let products = try await apiService.fetchData()
             saveProducts(products)
@@ -24,26 +33,23 @@ class ProductsRepository {
     
     private func saveProducts(_ dtos: [ProductDTO]) {
         for dto in dtos{
-            _ = ProductEntity.fromDTO(dto, context: context)
+            let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "productID == %d", dto.id)
+            let existing = try? context.fetch(request).first
+            if existing == nil{ 
+                _ = ProductEntity.fromDTO(dto, context: context)
+            }
             
         }
+        try? PersistenceController.shared.save(context: context)
     }
     
-}
-
-
-extension ProductEntity{
-    static func fromDTO(_ dto: ProductDTO, context: NSManagedObjectContext) -> ProductEntity{
-        let product = ProductEntity(context: context)
-        product.productID = Int64(dto.id)
-        product.title = dto.title
-        product.price = Double(dto.price)
-        product.stock = Int64(dto.stock)
-        product.sku = dto.sku
-        product.productDescription = dto.description
-        product.rating = Int64(dto.rating)
-        product.category = dto.category
-               
-        return product
+    func fetchProducts() throws -> [ProductModel]{
+        let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+        let entities = try context.fetch(request)
+        return entities.map { ProductModel(entity: $0)}
     }
 }
+
+
+
