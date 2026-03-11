@@ -10,9 +10,11 @@ import FirebaseAuth
 
 struct LoginView: View {
     
-    @StateObject var userSessionVM = UserSessionViewModel()
+    @EnvironmentObject var userSessionVM: UserSessionViewModel
     @EnvironmentObject var navigation: NavigationManager
     @EnvironmentObject var profileVM: ProfileViewModel
+    @State var email: String = ""
+    @State var password: String = ""
     
     var body: some View {
         HStack{
@@ -21,19 +23,19 @@ struct LoginView: View {
                     .font(.largeTitle.bold())
                     .padding(.vertical,5)
                     .foregroundColor(.secondary)
-                TextField("Email", text: $userSessionVM.email)
+                TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top)
                 
                     .padding(.horizontal, 8)
                 
-                SecureField("Password", text: $userSessionVM.password)
+                SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(8)
                 Button("Continue"){
                     userSessionVM.logIn(
-                        email: userSessionVM.email,
-                        password: userSessionVM.password
+                        email: email,
+                        password: password
                     ) { result in
                         switch result {
                         case .success(let authResult):

@@ -12,11 +12,15 @@ import FirebaseAuth
 
 
 struct SignUpView: View {
-   @EnvironmentObject var userSessionVM: UserSessionViewModel
+    
+    @EnvironmentObject var profileVM: UserProfileViewModel
     @EnvironmentObject var navigation: NavigationManager
-  
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var firstName = ""
+    @State private var lastName = ""
+    @State private var email = ""
+    @State private var password = ""
+    
+    private let authService = AuthService()
     var body: some View {
         
         HStack{
@@ -32,8 +36,10 @@ struct SignUpView: View {
                     .font(.largeTitle.bold())
                 Text("Welcome to theWorld of ECommerce")
                     .foregroundColor(Color.blue)
-                TextField("First Name", text: $firstName)
-                TextField("Last Name")
+                HStack{
+                    TextField("First Name", text: $firstName)
+                    TextField("Last Name", text: $lastName)
+                }
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top)
@@ -44,18 +50,19 @@ struct SignUpView: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
+              
                 Button("Proceed") {
-                    userSessionVM.signUp(
-                        email: $email,
-                        password: userSessionVM.password
+                    authService.signUp(
+                        email: email,
+                        password: password
                     ) { result in
                         switch result {
                         case .success(let authResult):
                             let uid = authResult.user.uid
                             let email = authResult.user.email ?? ""
-
-                            DispatchQueue.main.async {
-                                profileVM.loadProfile(byUID: uid, byEmail: email)
+                           Task {@MainActor in
+                               
+                               profileVM.createProfile(uid: uid, email: email, firstName: firstName, lastName: lastName)
                             }
                             navigation.navigate(to: ._main)
 
@@ -102,9 +109,7 @@ struct SignUpView: View {
                 .frame(width: 300, alignment: .center)
             }
             .padding()
-            .alert(userSessionVM.alertMessage, isPresented: $userSessionVM.showAlert) {
-                Button("OK", role: .cancel) {}
-            }
+          
         }
         
         .padding(20)

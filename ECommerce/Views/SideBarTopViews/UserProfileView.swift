@@ -8,9 +8,9 @@
 import SwiftUI
 internal import CoreData
 
-struct ProfileView: View {
+struct UserProfileView: View {
    
-    @EnvironmentObject  var vm: ProfileViewModel
+    @EnvironmentObject  var vm: UserProfileViewModel
     
     
    
@@ -28,7 +28,10 @@ struct ProfileView: View {
                         .frame(width: 120, height: 120)
                         .foregroundColor(.gray)
                     
-                    Text(vm.fullName)
+                    Text(vm.profile?.firstName ?? "")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text(vm.profile?.lastName ?? "")
                         .font(.title2)
                         .fontWeight(.semibold)
                 }
@@ -36,21 +39,23 @@ struct ProfileView: View {
                 Divider()
                 
                 Form {
-                    
-                    // MARK: Account Info
-                    Section("Account Information") {
-                        TextField("Full Name", text: $vm.fullName)
-                        TextField("Email" , text: .constant(vm.email) )
-                        TextField("Phone", text: $vm.phone)
-                    }
-                    
-                    // MARK: Address
-                    Section("Address") {
-                        TextField("Street", text: $vm.street)
-                        TextField("City", text: $vm.city)
-                        TextField("Pincode", text: $vm.pincode)
-                    }
-                    
+                   
+                        
+                        // MARK: Account Info
+                        Section("Account Information") {
+                            TextField("Full Name", text: $vm.profile.firstName)
+                            TextField("Full Name", text: $vm.profile.lastName)
+                            TextField("Email" , text: .constant(vm.email) )
+                            TextField("Phone", text: $vm.phone)
+                        }
+                        
+                        // MARK: Address
+                        Section("Address") {
+                            TextField("Street", text: $vm.street)
+                            TextField("City", text: $vm.city)
+                            TextField("Pincode", text: $vm.pincode)
+                        }
+                  
                  
                 
                 }

@@ -1,9 +1,10 @@
 //
-//  UserSessionViewModel.swift
+//  AuthService.swift
 //  ECommerce
 //
-//  Created by Suryansh Mishra on 26/11/25.
+//  Created by Suryansh Mishra on 11/03/26.
 //
+    
 
 import Foundation
 import SwiftUI
@@ -11,7 +12,7 @@ import os
 import FirebaseAuth
 internal import Combine
 
-class UserSessionViewModel: ObservableObject {
+class AuthService: ObservableObject{
     let logger = Logger(subsystem: "com.wg.ECommerce", category: "userSession")
     
     @Published var currentUserID: UUID? = nil
@@ -51,7 +52,7 @@ class UserSessionViewModel: ObservableObject {
             }
             if let auth = authResult {
                 self.logger.info("User created: \(auth.user.email ?? "")")
-                
+                SessionManager.shared.setUser(id: result.user.uid)
                 completion(.success(auth))
             }
           
@@ -61,17 +62,7 @@ class UserSessionViewModel: ObservableObject {
         
         
     }
-    
-    func isValidPassword(_ password: String) -> Bool {
-        return password.count >= 8
-    }
-    
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
+
     
     
     
@@ -109,6 +100,7 @@ class UserSessionViewModel: ObservableObject {
              
             if let auth = authResult{
                 print("User created: \(auth.user.email ?? "")")
+                SessionManager.shared.setUser(id: result.user.uid)
                 completion(.success(auth))
             }
            
@@ -117,6 +109,19 @@ class UserSessionViewModel: ObservableObject {
       
         
         
+    }
+    
+    //MARK: - Helpers
+    
+    func isValidPassword(_ password: String) -> Bool {
+        return password.count >= 8
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
    
 }

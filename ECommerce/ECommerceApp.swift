@@ -29,39 +29,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 struct ECommerceApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
-    let persistenceController = PersistenceController.shared
-    
+
+      
     @StateObject var homeVM = HomeViewModel()
+    @StateObject var userProfileVM = UserProfileViewModel()
   
     //Navigation
-    
     @StateObject var navigation = NavigationManager()
     
  
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $navigation.currentView) {
+            NavigationStack(path: $navigation.currentView){
                 SignUpView()
-                    .navigationDestination(for: NavigationManager.AuthFlow.self) { destination in
-                        switch destination {
+                    .navigationDestination(for: NavigationManager.AuthFlow.self) { route in
+                        
+                        switch route {
+
                         case .login:
                             LoginView()
+
                         case ._main:
                             HomeView()
+
                         case .category(let cat):
-                            CategoryItemsView(category: cat)
+//                            CategoryView(category: cat)
                         }
+
+                        
                     }
             }
+                    
+            }
             .environmentObject(homeVM)
+            .environmentObject(userProfileVM)
             .environmentObject(navigation)
-                
-                    .task {
-                        try? await nm.fetchData()
-                    }
+            
           
         }
-    }
+    
 }
