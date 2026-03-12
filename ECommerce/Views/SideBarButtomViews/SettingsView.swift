@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
    @StateObject var vm = SettingsViewModel()
-    @EnvironmentObject var profileVM: ProfileViewModel
+    @EnvironmentObject var profileVM: UserProfileViewModel
 
     var body: some View {
         NavigationStack{
@@ -24,13 +24,13 @@ struct SettingsView: View {
                 Section("Account"){
                    
                         VStack(alignment: .leading){
-                            Text(profileVM.fullName)
+                            Text(profileVM.firstName)
                             Text(profileVM.email)
                             
                         }
                         
                         NavigationLink("Edit"){
-                            ProfileView()
+                            UserProfileView()
                             
                         }
                     
@@ -54,6 +54,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    CategoriesView()
-        .environmentObject(ProfileViewModel(context: PersistenceController.shared.container.viewContext))
+    SettingsView()
 }

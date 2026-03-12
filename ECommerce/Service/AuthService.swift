@@ -52,7 +52,7 @@ class AuthService: ObservableObject{
             }
             if let auth = authResult {
                 self.logger.info("User created: \(auth.user.email ?? "")")
-                SessionManager.shared.setUser(id: result.user.uid)
+                SessionManager.shared.setUser(id: auth.user.uid)
                 completion(.success(auth))
             }
           
@@ -100,7 +100,7 @@ class AuthService: ObservableObject{
              
             if let auth = authResult{
                 print("User created: \(auth.user.email ?? "")")
-                SessionManager.shared.setUser(id: result.user.uid)
+                SessionManager.shared.setUser(id: auth.user.uid)
                 completion(.success(auth))
             }
            

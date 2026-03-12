@@ -20,11 +20,11 @@ struct DetailView: View {
     var body: some View {
        
         switch type{
-        case .profile: ProfileView()
+        case .profile: UserProfileView()
 
         case .home: HomeView()
         case .categories: CategoriesView()
-        case .cart: CartsView()
+        case .cart: CartView()
         case .settings: SettingsView()
         case .orders: OrdersView()
         

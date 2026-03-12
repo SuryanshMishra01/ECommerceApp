@@ -37,14 +37,13 @@ struct UserProfileView: View {
                 }
                 
                 Divider()
-                
-                Form {
-                   
+                    Form {
+                        
                         
                         // MARK: Account Info
                         Section("Account Information") {
-                            TextField("Full Name", text: $vm.profile.firstName)
-                            TextField("Full Name", text: $vm.profile.lastName)
+                            TextField("Full Name", text: $vm.firstName)
+                            TextField("Full Name", text: $vm.lastName)
                             TextField("Email" , text: .constant(vm.email) )
                             TextField("Phone", text: $vm.phone)
                         }
@@ -55,10 +54,11 @@ struct UserProfileView: View {
                             TextField("City", text: $vm.city)
                             TextField("Pincode", text: $vm.pincode)
                         }
-                  
-                 
+                        
+                        
+                        
+                    }
                 
-                }
                 .frame(maxWidth: 450)
                 
                 Spacer()
@@ -84,6 +84,5 @@ struct UserProfileView: View {
 }
 
 #Preview {
-    ProfileView()
-        .environmentObject(ProfileViewModel(context: PersistenceController.shared.container.viewContext))
+    UserProfileView()
 }

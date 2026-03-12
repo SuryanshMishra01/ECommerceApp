@@ -10,9 +10,9 @@ import FirebaseAuth
 
 struct LoginView: View {
     
-    @EnvironmentObject var userSessionVM: UserSessionViewModel
     @EnvironmentObject var navigation: NavigationManager
-    @EnvironmentObject var profileVM: ProfileViewModel
+    @EnvironmentObject var profileVM: UserProfileViewModel
+    private let authService = AuthService()
     @State var email: String = ""
     @State var password: String = ""
     
@@ -33,17 +33,16 @@ struct LoginView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(8)
                 Button("Continue"){
-                    userSessionVM.logIn(
+                    authService.logIn(
                         email: email,
                         password: password
                     ) { result in
                         switch result {
                         case .success(let authResult):
                             let uid = authResult.user.uid
-                            let email = authResult.user.email ?? ""
 
-                            DispatchQueue.main.async {
-                                profileVM.loadProfile(byUID: uid, byEmail: email)
+                            Task {@MainActor in
+                                profileVM.loadProfile(uid: uid)
                             }
                             navigation.navigate(to: ._main)
 

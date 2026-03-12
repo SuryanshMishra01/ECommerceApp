@@ -59,7 +59,6 @@ struct SignUpView: View {
                         switch result {
                         case .success(let authResult):
                             let uid = authResult.user.uid
-                            let email = authResult.user.email ?? ""
                            Task {@MainActor in
                                
                                profileVM.createProfile(uid: uid, email: email, firstName: firstName, lastName: lastName)

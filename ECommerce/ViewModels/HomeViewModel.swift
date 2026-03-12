@@ -26,7 +26,7 @@ class HomeViewModel: ObservableObject {
         return products.filter{
             $0.title.localizedCaseInsensitiveContains(searchText)
         }
-    }
+    }                                                                                             
 
       func loadProducts() async {
           defer{ isLoading = false }

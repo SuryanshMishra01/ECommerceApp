@@ -49,5 +49,4 @@ struct SideBarView: View {
 
 #Preview {
     SideBarView(selected: .constant(.home))
-        .environmentObject(NetworkManager())
 }

@@ -15,7 +15,16 @@ class UserProfileViewModel: ObservableObject {
     private let repository = UserProfileRepository()
 
     @Published var profile: UserProfileModel?
+    
+    @Published var firstName = ""
+    @Published var lastName = ""
+    @Published var email = ""
+    @Published var phone = ""
 
+    @Published var street = ""
+    @Published var city = ""
+    @Published var pincode = ""
+    
     func createProfile(
         uid: String,
         email: String,
@@ -38,8 +47,11 @@ class UserProfileViewModel: ObservableObject {
     }
 
     func loadProfile(uid: String) {
-
-        profile = repository.fetchProfile(by: uid)
+  
+        guard let profile = repository.fetchProfile(by: uid) else {return}
+        firstName = profile.firstName
+        lastName = profile.lastName 
+        email = profile.email
     }
 
     func saveChanges() {
@@ -47,5 +59,10 @@ class UserProfileViewModel: ObservableObject {
         guard let profile else { return }
 
         repository.updateProfile(profile)
+    }
+    func resetChanges(){
+        guard let uid = SessionManager.shared.userID else { return }
+        loadProfile(uid: uid)
+        
     }
 }

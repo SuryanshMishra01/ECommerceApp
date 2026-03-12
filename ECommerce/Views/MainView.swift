@@ -28,7 +28,4 @@ struct MainView: View {
 
 #Preview {
     MainView()
-
-        .environmentObject(NetworkManager())
-        .environmentObject(CartViewModel(context: PersistenceController.shared.container.viewContext, nm: NetworkManager()))
 }

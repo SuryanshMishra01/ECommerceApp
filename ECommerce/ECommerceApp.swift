@@ -51,10 +51,10 @@ struct ECommerceApp: App {
                             LoginView()
 
                         case ._main:
-                            HomeView()
+                            MainView()
 
                         case .category(let cat):
-//                            CategoryView(category: cat)
+                            CategoriesView()
                         }
 
                         
