@@ -13,8 +13,13 @@ struct CartView: View {
     var body: some View {
         VStack{
             List(cartVM.cartItems, id: \.id) { item in
-                
-                HStack {
+            
+                HStack(alignment: .center){
+                    if let url = item.product.images.first{
+                        ProductImageView(url: url, height: 70)
+                    }else{
+                        ProgressView()
+                    }
                     
                     Text(item.product.title)
                     

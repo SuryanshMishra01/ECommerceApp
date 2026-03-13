@@ -18,8 +18,16 @@ extension ProductEntity{
         product.productDescription = dto.description
         product.rating = Int64(dto.rating)
         product.category = dto.category
-      //  product.reviews & images 
-               
+        for imageURL in dto.images {
+
+           let image = ProductImageEntity(context: context)
+
+           image.url = imageURL
+            product.addToImages(image)
+           image.product = product
+       }
+
+    
         return product
     }
 }

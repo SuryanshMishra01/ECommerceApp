@@ -6,36 +6,40 @@
 //
 
 import SwiftUI
+import NukeUI
 
 struct ProductImageView: View {
-    
+
     let url: String
     var height: CGFloat = 120
-    
+    var contentMode: ContentMode = .fit
+
     var body: some View {
-        
-        AsyncImage(url: URL(string: url)) { phase in
-            
-            switch phase {
-                
-            case .success(let image):
+
+        LazyImage(url: URL(string: url)) { state in
+
+            if let image = state.image {
+
                 image
                     .resizable()
-                    .scaledToFit()
-                
-            case .failure(_):
+                    .aspectRatio(contentMode: contentMode)
+
+            } else if state.isLoading {
+
+                ProgressView()
+
+            } else {
+
                 Image(systemName: "photo")
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(.gray)
-                
-            default:
-                ProgressView()
+                    .padding()
             }
         }
         .frame(height: height)
         .frame(maxWidth: .infinity)
-        .background(Color(.gray))
+        .background(Color.gray.opacity(0.2))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

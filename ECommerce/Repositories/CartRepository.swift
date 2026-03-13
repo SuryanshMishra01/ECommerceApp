@@ -93,7 +93,7 @@ class CartRepository {
         guard let userID = SessionManager.shared.userID else { return }
         
         let request : NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "product.productID == %@ AND user.userID == %@", product.id, userID)
+        request.predicate = NSPredicate(format: "product.productID == %d AND user.userid == %@", product.id, userID)
         guard let cartItem = try? context.fetch(request).first else { return }
         
         guard let productEntity = cartItem.product else { return }

@@ -41,7 +41,7 @@ class CartViewModel: ObservableObject {
     
     //MARK: - Function to check quantity
     
-    func checkQuantity(product: ProductModel) -> Int{
+    func checkQuantity(for product: ProductModel) -> Int{
         cartItems.first(where: { $0.product.id == product.id })?.quantity ?? 0
     }
     
