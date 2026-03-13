@@ -10,30 +10,16 @@ internal import CoreData
 import FirebaseCore
 internal import Combine
 
-
-
-
-
-class AppDelegate: NSObject, NSApplicationDelegate {
-  func applicationDidFinishLaunching(_ notification: Notification) {
-      
-      FirebaseApp.configure()
-  }
-}
-
-
-
-
-
 @main
 struct ECommerceApp: App {
     
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
+    init(){
+        FirebaseApp.configure()
+    }
       
     @StateObject var homeVM = HomeViewModel()
     @StateObject var userProfileVM = UserProfileViewModel()
-  
+    @StateObject var cartVM = CartViewModel()
     //Navigation
     @StateObject var navigation = NavigationManager()
     
@@ -65,6 +51,7 @@ struct ECommerceApp: App {
             .environmentObject(homeVM)
             .environmentObject(userProfileVM)
             .environmentObject(navigation)
+            .environmentObject(cartVM)
             
           
         }

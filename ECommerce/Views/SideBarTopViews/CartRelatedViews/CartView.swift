@@ -16,7 +16,7 @@ struct CartView: View {
                 
                 HStack {
                     
-                    Text(item.product?.title ?? "")
+                    Text(item.product.title)
                     
                     Spacer()
                     

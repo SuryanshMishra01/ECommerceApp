@@ -13,7 +13,7 @@ class CartViewModel: ObservableObject {
 
     private let repository = CartRepository()
 
-    @Published var cartItems: [CartItemEntity] = []
+    @Published var cartItems: [CartItemModel] = []
 
     init() {
         loadCart()
@@ -30,7 +30,20 @@ class CartViewModel: ObservableObject {
 
     func addProduct(_ product: ProductModel){
         repository.saveToCart(product: product)
-
         loadCart()
     }
+    
+    func removeProduct(_ product: ProductModel){
+        repository.removeFromCart(product: product)
+        loadCart()
+    }
+    
+    
+    //MARK: - Function to check quantity
+    
+    func checkQuantity(product: ProductModel) -> Int{
+        cartItems.first(where: { $0.product.id == product.id })?.quantity ?? 0
+    }
+    
+    
 }

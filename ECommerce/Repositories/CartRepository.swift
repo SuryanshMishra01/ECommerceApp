@@ -12,19 +12,24 @@ class CartRepository {
     private let context = PersistenceController.shared.context
     
     
-    func loadCart() -> [CartItemEntity]{
-        
+    func loadCart() -> [CartItemModel] {
+
         guard let userID = SessionManager.shared.userID else { return [] }
 
         let request: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
 
         request.predicate = NSPredicate(format: "user.userid == %@", userID)
 
-        do {
-            return try context.fetch(request)
-        } catch {
-            print("Cart fetch error:", error)
-            return []
+        let items = (try? context.fetch(request)) ?? []
+
+        return items.compactMap { entity in
+
+            guard let product = entity.product else { return nil }
+
+            return CartItemModel(
+                product: ProductModel(entity: product),
+                quantity: Int(entity.quantity)
+            )
         }
     }
     
@@ -81,7 +86,30 @@ class CartRepository {
 
          save()
      }
-
+    
+    //MARK: - Remove Cart Item
+    
+    func removeFromCart(product: ProductModel){
+        guard let userID = SessionManager.shared.userID else { return }
+        
+        let request : NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "product.productID == %@ AND user.userID == %@", product.id, userID)
+        guard let cartItem = try? context.fetch(request).first else { return }
+        
+        guard let productEntity = cartItem.product else { return }
+        
+        if cartItem.quantity > 1{
+            cartItem.quantity -= 1
+        }else{
+            context.delete(cartItem)
+            
+        }
+        productEntity.stock += 1
+        
+        save()
+    }
+  
+    
      // MARK: Save Context
 
      private func save() {
