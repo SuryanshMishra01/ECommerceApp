@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CartView: View {
-
+    
+    @EnvironmentObject var ordersVM: OrdersViewModel
     @EnvironmentObject var cartVM: CartViewModel
     @State private var orderPlaced = false
     
@@ -91,7 +92,7 @@ struct CartView: View {
 
             Button {
 
-                cartVM.checkout()
+                ordersVM.checkout(totalItems: cartVM.totalItems, totalAmount: cartVM.totalPrice)
 
                 orderPlaced = true
 

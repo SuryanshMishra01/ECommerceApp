@@ -109,47 +109,7 @@ class CartRepository {
         save()
     }
   
-    //MARK: - checkout logic
-    
-    func checkout(totalItems: Int, totalPrice: Double) {
-
-        guard let userID = SessionManager.shared.userID else { return }
-
-        // Fetch user
-        let userRequest: NSFetchRequest<UserProfileEntity> = UserProfileEntity.fetchRequest()
-        userRequest.predicate = NSPredicate(format: "userid == %@", userID)
-
-        guard let user = try? context.fetch(userRequest).first else { return }
-
-        // Fetch cart items
-        let cartRequest: NSFetchRequest<CartItemEntity> = CartItemEntity.fetchRequest()
-        cartRequest.predicate = NSPredicate(format: "user.userid == %@", userID)
-
-        guard let cartItems = try? context.fetch(cartRequest), !cartItems.isEmpty else { return }
-
-        // Create order
-        let order = OrderEntity(context: context)
-
-        order.orderID = UUID()
-        order.timestamp = Date()
-        order.totalPrice = totalPrice
-        order.quantity = Int64(totalItems)
-        order.user = user
-
-        // Add products to order
-        for item in cartItems {
-            if let product = item.product {
-                order.addToProducts(product)
-            }
-        }
-
-        // Clear cart
-        for item in cartItems {
-            context.delete(item)
-        }
-
-        save()
-    }
+   
     
      // MARK: Save Context
 

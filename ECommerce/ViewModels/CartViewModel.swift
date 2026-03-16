@@ -40,13 +40,7 @@ class CartViewModel: ObservableObject {
     }
     
 
-    
-    //MARK: - Checkout Logic
-   
-    func checkout() {
-        repository.checkout(totalItems: totalItems, totalPrice: totalPrice)
-        loadCart()
-    }
+
     
     //MARK: - Helpers
     
