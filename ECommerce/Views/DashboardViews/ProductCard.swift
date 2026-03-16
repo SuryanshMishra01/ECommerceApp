@@ -21,7 +21,6 @@ struct ProductCard: View {
         
         VStack(alignment: .leading) {
             ProductImageView(url: product.images.first ?? "")
-            Text(product.images.first ?? "")
                  // Product Title)
             Text(product.title)
                 .font(.headline)

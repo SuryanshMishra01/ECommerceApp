@@ -14,7 +14,8 @@ class CartViewModel: ObservableObject {
     private let repository = CartRepository()
 
     @Published var cartItems: [CartItemModel] = []
-
+    
+    
     init() {
         loadCart()
     }
@@ -38,12 +39,29 @@ class CartViewModel: ObservableObject {
         loadCart()
     }
     
+
     
-    //MARK: - Function to check quantity
+    //MARK: - Checkout Logic
+   
+    func checkout() {
+        repository.checkout(totalItems: totalItems, totalPrice: totalPrice)
+        loadCart()
+    }
+    
+    //MARK: - Helpers
     
     func checkQuantity(for product: ProductModel) -> Int{
         cartItems.first(where: { $0.product.id == product.id })?.quantity ?? 0
     }
+    
+    var totalItems: Int {
+        cartItems.reduce(into: 0) { $0 += $1.quantity }
+    }
+
+    var totalPrice: Double {
+        cartItems.reduce(into: 0) { $0 += ($1.product.price * Double($1.quantity)) }
+    }
+    
     
     
 }

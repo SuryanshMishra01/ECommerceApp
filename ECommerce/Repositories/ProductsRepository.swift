@@ -25,9 +25,23 @@ class ProductsRepository {
        }
         do{
             let products = try await apiService.fetchData()
+            deleteAllProducts()
             saveProducts(products)
         }catch{
             throw error
+        }
+    }
+    
+    private func deleteAllProducts() {
+
+        let request: NSFetchRequest<NSFetchRequestResult> = ProductEntity.fetchRequest()
+
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+
+        do {
+            try context.execute(deleteRequest)
+        } catch {
+            print("Failed to delete products:", error)
         }
     }
     
@@ -36,9 +50,10 @@ class ProductsRepository {
             let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
             request.predicate = NSPredicate(format: "productID == %d", dto.id)
             let existing = try? context.fetch(request).first
-            if existing == nil{ 
+            if existing == nil{
                 _ = ProductEntity.fromDTO(dto, context: context)
             }
+        
             
         }
         try? PersistenceController.shared.save(context: context)

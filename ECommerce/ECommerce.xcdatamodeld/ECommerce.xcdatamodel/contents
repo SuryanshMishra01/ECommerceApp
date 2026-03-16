@@ -16,7 +16,9 @@
     <entity name="Order" representedClassName="OrderEntity" syncable="YES" codeGenerationType="class">
         <attribute name="orderID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="quantity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="orders" inverseEntity="Product"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="totalPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="orders" inverseEntity="Product"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="orders" inverseEntity="UserProfile"/>
     </entity>
     <entity name="Product" representedClassName="ProductEntity" syncable="YES" codeGenerationType="class">
@@ -31,7 +33,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="cartItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CartItem" inverseName="product" inverseEntity="CartItem"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductImage" inverseName="product" inverseEntity="ProductImage"/>
-        <relationship name="orders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Order" inverseName="product" inverseEntity="Order"/>
+        <relationship name="orders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Order" inverseName="products" inverseEntity="Order"/>
         <relationship name="reviews" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Review" inverseName="product" inverseEntity="Review"/>
     </entity>
     <entity name="ProductImage" representedClassName="ProductImageEntity" syncable="YES" codeGenerationType="class">
