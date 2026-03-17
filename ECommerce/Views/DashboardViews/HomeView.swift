@@ -12,7 +12,7 @@ import SwiftUI
 struct HomeView: View {
     
     @EnvironmentObject var homeVM: HomeViewModel
-    @EnvirolnmentObject var cartVM: CartViewModel
+    @EnvironmentObject var cartVM: CartViewModel
     
     let columns = [
         GridItem(.flexible()),

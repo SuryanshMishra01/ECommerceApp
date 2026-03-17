@@ -56,7 +56,7 @@ struct ProductCard: View {
         .shadow(radius: 2)
         // FULL SCREEN PRESENTATION
         .sheet(isPresented: $showDetail) {
-            ProductDetailView(showDetail: $showDetail, productID: product.id)
+            ProductDetailView(productID: product.id)
         }
     }
     

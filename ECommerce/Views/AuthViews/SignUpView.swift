@@ -40,6 +40,7 @@ struct SignUpView: View {
                     TextField("First Name", text: $firstName)
                     TextField("Last Name", text: $lastName)
                 }
+                .padding()
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top)

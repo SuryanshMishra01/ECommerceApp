@@ -17,10 +17,21 @@ struct UserProfileModel{
 }
 
 
-struct AddressModel{
+struct AddressModel: Identifiable{
+    let id = UUID()
     let street: String
     let city: String
     let state: String
     let pincode: String
     let phone: String
+}
+
+extension AddressModel{
+    init (entity: AddressEntity){
+        self.street = entity.street ?? ""
+        self.city = entity.city ?? ""
+        self.state = entity.state ?? ""
+        self.pincode = entity.pincode ?? ""
+        self.phone = entity.phone ?? ""
+    }
 }

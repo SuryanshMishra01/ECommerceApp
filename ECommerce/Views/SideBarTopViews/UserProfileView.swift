@@ -11,7 +11,8 @@ internal import CoreData
 struct UserProfileView: View {
    
     @EnvironmentObject  var vm: UserProfileViewModel
-    
+    @EnvironmentObject var addVM: AddressViewModel
+    @State var showDetail = false
     
    
     var body: some View {
@@ -42,17 +43,37 @@ struct UserProfileView: View {
                         
                         // MARK: Account Info
                         Section("Account Information") {
-                            TextField("Full Name", text: $vm.firstName)
-                            TextField("Full Name", text: $vm.lastName)
+                            TextField("First Name", text: $vm.firstName)
+                            TextField("Last Name", text: $vm.lastName)
                             TextField("Email" , text: .constant(vm.email) )
-                            TextField("Phone", text: $vm.phone)
                         }
                         
                         // MARK: Address
-                        Section("Address") {
-                            TextField("Street", text: $vm.street)
-                            TextField("City", text: $vm.city)
-                            TextField("Pincode", text: $vm.pincode)
+                            Button{
+                                showDetail = true
+                            }label:{
+                                HStack{Text("Address")
+                                    Image(systemName: "plus.square.fill")
+                                }
+                            }
+                        if let address = addVM.defaultAddress {
+                            VStack{
+                                Text("Phone: \(address.phone)")
+                                Text("Street: \(address.street)")
+                                HStack{
+                                Text("City: \(address.city)")
+                                Text("State: \(address.state)")
+                                }
+
+                                Text("Pincode: \(address.pincode)")
+                                
+                            }
+                            .font(.body)
+                        } else {
+                            
+                            Text("No default address selected")
+                                .foregroundColor(.secondary)
+
                         }
                         
                         
@@ -79,6 +100,9 @@ struct UserProfileView: View {
                 .padding(.top)
             }
             .padding(30)
+        }
+        .sheet(isPresented: $showDetail){
+            AddressView()
         }
     }
 }

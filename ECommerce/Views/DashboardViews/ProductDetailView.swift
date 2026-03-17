@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ProductDetailView: View {
     @EnvironmentObject var homeVM: HomeViewModel
-    @Binding var showDetail: Bool
-
+    @Environment(\.dismiss) var dismiss
+    
     let productID: Int
     var product: ProductModel?{
         homeVM.filteredProducts.first(where: { $0.id == productID })
@@ -137,7 +137,7 @@ struct ProductDetailView: View {
                     }
                 }
                 Button("Close"){
-                    showDetail = false
+                    dismiss()
                 }
             }
             .padding()

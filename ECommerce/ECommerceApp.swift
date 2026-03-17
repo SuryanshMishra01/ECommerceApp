@@ -19,6 +19,7 @@ struct ECommerceApp: App {
       
     @StateObject var homeVM = HomeViewModel()
     @StateObject var userProfileVM = UserProfileViewModel()
+    @StateObject var addVM = AddressViewModel()
     @StateObject var cartVM = CartViewModel()
     @StateObject var ordersVM = OrdersViewModel()
     //Navigation
@@ -51,6 +52,7 @@ struct ECommerceApp: App {
             .environmentObject(navigation)
             .environmentObject(cartVM)
             .environmentObject(ordersVM)
+            .environmentObject(addVM)
             
             
         }

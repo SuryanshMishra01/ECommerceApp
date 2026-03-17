@@ -46,46 +46,48 @@ struct CartView: View {
     //MARK: - Cart Row
     
     func cartRow(item: CartItemModel) -> some View {
-        HStack {
-
-            if let url = item.product.images.first {
-                ProductImageView(url: url, height: 70)
-            } else {
-                ProgressView()
-            }
-
-            VStack(alignment: .leading) {
-                Text(item.product.title)
-                    .font(.headline)
-                    .lineLimit(2)
-
-                Text("$\(item.product.price)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-
-            Spacer()
-
-            HStack(spacing: 10) {
-
-                Button {
-                    cartVM.removeProduct(item.product)
-                } label: {
-                    Image(systemName: "minus.circle.fill")
+                HStack {
+                    if let url = item.product.images.first {
+                        ProductImageView(url: url, height: 70)
+                            .frame(maxWidth: 140)
+                        
+                    } else {
+                        ProgressView()
+                        
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        Text(item.product.title)
+                            .font(.headline)
+                            .lineLimit(2)
+                        
+                        Text("$\(item.product.price)")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                    HStack(spacing: 10) {
+                        
+                        Button {
+                            cartVM.removeProduct(item.product)
+                        } label: {
+                            Image(systemName: "minus.circle.fill")
+                        }
+                        
+                        Text("\(item.quantity)")
+                            .fontWeight(.bold)
+                        
+                        Button {
+                            cartVM.addProduct(item.product)
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                        }
+                    }
+                    .font(.title3)
                 }
-
-                Text("\(item.quantity)")
-                    .fontWeight(.bold)
-
-                Button {
-                    cartVM.addProduct(item.product)
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                }
-            }
-            .font(.title3)
+            
         }
-    }
+    
     
     //MARK: - Cart Summary
     
