@@ -57,7 +57,7 @@ struct LoginView: View {
                 HStack{
                     Text("New here?")
                     Button("Create an account"){
-                        navigation.navigateBack()
+                        navigation.navigateBackAuth()
                     }
                         .foregroundColor(.blue)
                 }

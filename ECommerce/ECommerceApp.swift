@@ -28,26 +28,23 @@ struct ECommerceApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $navigation.currentView){
+            NavigationStack(path: $navigation.authPath){
                 SignUpView()
                     .navigationDestination(for: NavigationManager.AuthFlow.self) { route in
                         
                         switch route {
-
+                            
                         case .login:
                             LoginView()
-
+                            
                         case ._main:
                             MainView()
-
-                        case .category(let cat):
-                            CategoriesView()
+                            
+                            
+                            
                         }
-
-                        
                     }
-            }
-                    
+                
             }
             .environmentObject(homeVM)
             .environmentObject(userProfileVM)
@@ -55,7 +52,8 @@ struct ECommerceApp: App {
             .environmentObject(cartVM)
             .environmentObject(ordersVM)
             
-          
+            
         }
+    }
     
 }

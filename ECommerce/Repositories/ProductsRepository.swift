@@ -8,6 +8,7 @@
 import Foundation
 internal import CoreData
 
+// Note - Some things are commented in this code for testing purpose only
 class ProductsRepository {
     
     let apiService = ProductAPIService()
@@ -20,9 +21,9 @@ class ProductsRepository {
        let count = try context.count(for: request)
 
        // If products already exist, skip API call
-       if count > 0 {
-           return
-       }
+//       if count > 0 {
+//           return
+//       }
         do{
             let products = try await apiService.fetchData()
             deleteAllProducts()
@@ -49,10 +50,10 @@ class ProductsRepository {
         for dto in dtos{
             let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
             request.predicate = NSPredicate(format: "productID == %d", dto.id)
-            let existing = try? context.fetch(request).first
-            if existing == nil{
+//            let existing = try? context.fetch(request).first
+//            if existing == nil{
                 _ = ProductEntity.fromDTO(dto, context: context)
-            }
+//            }
         
             
         }

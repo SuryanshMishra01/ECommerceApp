@@ -10,19 +10,18 @@ internal import CoreData
 
 
 struct MainView: View {
-    @State private var selectedMenu: Menu? = .home
+    
+    @EnvironmentObject var navigation: NavigationManager
+    @State private var selectedMenu: Menu = .home
 
     var body: some View {
         NavigationSplitView {
             SideBarView(selected: $selectedMenu)
         } detail: {
-            if let menu = selectedMenu {
-                DetailView(type: menu)
-            } else {
-                Text("Select a menu")
-            }
+            DetailView(type: selectedMenu)
         }
     }
+    
 }
 
 

@@ -10,47 +10,40 @@
 import SwiftUI
 
 struct HomeView: View {
-
+    
     @EnvironmentObject var homeVM: HomeViewModel
-    @EnvironmentObject var cartVM: CartViewModel
-
+    @EnvirolnmentObject var cartVM: CartViewModel
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
+    
     var body: some View {
-
-        NavigationStack {
-
-            ScrollView {
-
-                LazyVGrid(columns: columns, spacing: 16) {
-
-                    ForEach(homeVM.filteredProducts) { product in
-                        ZStack {
-
-                               NavigationLink {
-                                   ItemDetailView(product: product)
-                               } label: {
-                                   EmptyView()
-                               }
-                               .opacity(0)
-
-                               ProductCard(product: product)
-                           }
-                    }
-
-                    if homeVM.isLoading {
-                        ProgressView()
-                            .padding()
-                    }
+        
+        
+        
+        ScrollView {
+            
+            LazyVGrid(columns: columns, spacing: 16) {
+                
+                ForEach(homeVM.filteredProducts) { product in
+                  
+                        ProductCard(product: product)
+                    
                 }
-                .padding()
+                
+                if homeVM.isLoading {
+                    ProgressView()
+                        .padding()
+                }
             }
-            .navigationTitle("Products")
+            .padding()
         }
+      
+        .navigationTitle("Products")
+        
         .task {
             await homeVM.loadProducts()
         }
@@ -62,5 +55,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        
+    
 }

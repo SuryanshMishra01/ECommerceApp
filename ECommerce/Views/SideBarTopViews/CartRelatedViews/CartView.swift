@@ -14,16 +14,32 @@ struct CartView: View {
     @State private var orderPlaced = false
     
     var body: some View {
-        VStack(spacing: 0) {
-
-            List(cartVM.cartItems, id: \.id) { item in
-                cartRow(item: item)
+//        if cartVM.cartItems.isEmpty {
+//            EmptyCartView()
+//        }else{
+            VStack(spacing: 0) {
+                
+                List(cartVM.cartItems, id: \.id) { item in
+                    cartRow(item: item)
+                }
+                
+                cartSummary
             }
-
-            cartSummary
-        }
+//        }
         .onAppear {
             cartVM.loadCart()
+        }
+    }
+    
+    //MARK: - Empty Cart View
+    
+    var EmptyCartView: some View {
+        VStack{
+            
+            Text("Your cart is empty")
+                .font(.largeTitle)
+                .foregroundColor(.gray)
+                .padding()
         }
     }
     
@@ -98,6 +114,7 @@ struct CartView: View {
 
                 Task {
                     try? await Task.sleep(for: .seconds(1.5))
+                    cartVM.loadCart()
                     orderPlaced = false
                 }
 

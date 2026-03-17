@@ -24,5 +24,6 @@ class OrdersViewModel: ObservableObject {
     
     func checkout(totalItems: Int, totalAmount: Double){
         repository.createOrderFromCart(totalQuantity: totalItems, totalAmount: totalAmount)
+        orders = repository.loadOrders()
     }
 }

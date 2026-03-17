@@ -35,7 +35,7 @@ enum Menu: String, CaseIterable, Identifiable {
 
 
 struct SideBarView: View {
-    @Binding var selected: Menu?
+    @Binding var selected: Menu
 
     var body: some View {
         List(Menu.allCases, id: \.self, selection: $selected) { menuItem in

@@ -7,9 +7,14 @@
 
 import SwiftUI
 
-struct ItemDetailView: View {
-    
-    let product: ProductModel
+struct ProductDetailView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    @Binding var showDetail: Bool
+
+    let productID: Int
+    var product: ProductModel?{
+        homeVM.filteredProducts.first(where: { $0.id == productID })
+    }
     var addToCart: (() -> Void)? = nil
     
     var body: some View {
@@ -20,19 +25,19 @@ struct ItemDetailView: View {
                 
                 // MARK: - Product Image
                 ProductImageView(
-                    url: product.images.first ?? "",
+                    url: product?.images.first ?? "",
                     height: 300
                 )
                 
                 
                 // MARK: - Title
-                Text(product.title)
+                Text(product?.title ?? "")
                     .font(.title2)
                     .fontWeight(.bold)
                 
                 
                 // MARK: - Price
-                Text("$\(product.price, specifier: "%.2f")")
+                Text("$\(product?.price ?? 0.0, specifier: "%.2f")")
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundColor(.orange)
@@ -43,17 +48,17 @@ struct ItemDetailView: View {
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)
                     
-                    Text(String(format: "%.1f", product.rating))
+                    Text(String(format: "%.1f", product?.rating ?? 0.0))
                 }
                 
                 
                 // MARK: - Availability
-                Text(product.availabilityStatus)
-                    .foregroundColor(product.stock > 0 ? .green : .red)
+                Text(product?.availabilityStatus ?? "")
+                    .foregroundColor(product?.stock ?? 0 > 0 ? .green : .red)
                 
                 
                 // MARK: - Description
-                Text(product.description)
+                Text(product?.description ?? "")
                     .foregroundColor(.secondary)
                 
                 
@@ -61,7 +66,7 @@ struct ItemDetailView: View {
                 
                 
                 // MARK: - Reviews
-                if let reviews = product.reviews, !reviews.isEmpty {
+                if let reviews = product?.reviews, !reviews.isEmpty {
                     
                     VStack(alignment: .leading, spacing: 12) {
                         
@@ -115,7 +120,7 @@ struct ItemDetailView: View {
                                 .foregroundColor(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
-                    .disabled(product.stock == 0)
+                    .disabled(product?.stock ?? 0 == 0)
                     }
                 
                     
@@ -130,6 +135,9 @@ struct ItemDetailView: View {
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }
+                }
+                Button("Close"){
+                    showDetail = false
                 }
             }
             .padding()
