@@ -43,4 +43,14 @@ class AddressRepository{
         }
         
     }
+    
+    func deleteAddress(id: UUID) {
+        let request: NSFetchRequest<AddressEntity> = AddressEntity.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+
+        if let result = try? context.fetch(request).first {
+            context.delete(result)
+            try? context.save()
+        }
+    }
 }

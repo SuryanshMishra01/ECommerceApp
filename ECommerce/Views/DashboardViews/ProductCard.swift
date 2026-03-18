@@ -8,7 +8,7 @@ import SwiftUI
 
 struct ProductCard: View {
 
-    let product: ProductModel
+    @State var product: ProductModel
     @EnvironmentObject var cartVM: CartViewModel
     @EnvironmentObject var navigation : NavigationManager
     @State var showDetail = false

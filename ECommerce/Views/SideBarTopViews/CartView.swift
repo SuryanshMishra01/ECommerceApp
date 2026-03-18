@@ -61,7 +61,7 @@ struct CartView: View {
                             .font(.headline)
                             .lineLimit(2)
                         
-                        Text("$\(item.product.price)")
+                        Text("$\(item.product.price, specifier: "%.2f")")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                     }

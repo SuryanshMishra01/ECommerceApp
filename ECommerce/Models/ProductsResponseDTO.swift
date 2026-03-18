@@ -36,9 +36,9 @@ struct ProductDTO: Codable, Identifiable{
 
 
 
-struct ReviewDTO: Codable, Identifiable {
+struct ReviewDTO: Codable, Identifiable{
      
-    var id: String  {date}
+    var id: String  {date + reviewerEmail}
     let rating: Int
     let comment: String
     let date: String

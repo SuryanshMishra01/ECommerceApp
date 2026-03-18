@@ -26,7 +26,17 @@ extension ProductEntity{
             product.addToImages(image)
            image.product = product
        }
-
+        for review in dto.reviews ?? [] {
+            let reviewEntity = ReviewEntity(context: context)
+            reviewEntity.date = review.date
+            reviewEntity.reviewerEmail = review.reviewerEmail
+            reviewEntity.reviewerName = review.reviewerName
+            reviewEntity.comment = review.comment
+            reviewEntity.rating = Int64(review.rating)
+            product.addToReviews(reviewEntity)
+            reviewEntity.product = product
+        }
+    
     
         return product
     }

@@ -16,17 +16,18 @@ class ProductsRepository {
     
     func syncProducts() async throws{
         
-        let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+//        let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
 
-       let count = try context.count(for: request)
+//       let count = try context.count(for: request)
 
        // If products already exist, skip API call
 //       if count > 0 {
 //           return
 //       }
         do{
-            let products = try await apiService.fetchData()
             deleteAllProducts()
+
+            let products = try await apiService.fetchData()
             saveProducts(products)
         }catch{
             throw error
@@ -62,6 +63,7 @@ class ProductsRepository {
     
     func fetchProducts() throws -> [ProductModel]{
         let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
+        request.sortDescriptors = [ NSSortDescriptor(key: "productID", ascending: true) ]
         let entities = try context.fetch(request)
         return entities.map { ProductModel(entity: $0)}
     }

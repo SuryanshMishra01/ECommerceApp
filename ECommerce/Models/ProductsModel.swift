@@ -17,12 +17,13 @@ struct ProductModel: Identifiable{
     var stock: Int
     let brand: String?
     let sku: String
-    let reviews: [ReviewDTO]?
+    let reviews: [ReviewModel]?
     let images: [String]
     var availabilityStatus: String{
         stock > 0 ? "In Stock" : "Out of Stock"
     }
 }
+
 
 extension ProductModel{
     init(entity: ProductEntity){
@@ -39,13 +40,29 @@ extension ProductModel{
         self.images = imageEntity.map{ $0.url ?? ""}
         let reviewEntity = entity.reviews as? Set<ReviewEntity> ?? []
         self.reviews = reviewEntity.map{
-            ReviewDTO(
-                rating: Int($0.rating),
-                comment: $0.comment ?? "",
-                date: $0.date ?? "",
-                reviewerName: $0.reviewerName ?? "",
-                reviewerEmail: $0.reviewerEmail ?? "",
-            )
+            ReviewModel(entity: $0)
         }
+        
     }
+}
+
+
+struct ReviewModel: Identifiable{
+    var id: String { date + reviewerEmail }
+    let date: String
+    let reviewerName: String
+    let reviewerEmail: String
+    let comment: String
+    let rating: Int
+}
+
+extension ReviewModel{
+    init (entity: ReviewEntity){
+        self.date = entity.date ?? ""
+        self.reviewerName = entity.reviewerName ?? ""
+        self.reviewerEmail = entity.reviewerEmail ?? ""
+        self.comment = entity.comment ?? ""
+        self.rating = Int(entity.rating)
+    }
+    
 }

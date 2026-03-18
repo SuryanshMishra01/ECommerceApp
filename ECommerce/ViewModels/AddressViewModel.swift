@@ -29,5 +29,9 @@ class AddressViewModel: ObservableObject {
     func setDefault(_ address: AddressModel) {
         defaultAddress = address
     }
-  
+    
+    func deleteAddress(id: UUID){
+        repository.deleteAddress(id: id)
+        loadAllAddress()
+    }
 }

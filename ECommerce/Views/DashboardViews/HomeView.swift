@@ -45,7 +45,9 @@ struct HomeView: View {
         .navigationTitle("Products")
         
         .task {
-            await homeVM.loadProducts()
+            if homeVM.products.isEmpty {
+                await homeVM.loadProducts()
+            }
         }
     }
 }

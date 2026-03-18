@@ -49,35 +49,34 @@ struct UserProfileView: View {
                         }
                         
                         // MARK: Address
-                            Button{
+                        Section("Address") {
+
+                            Button {
                                 showDetail = true
-                            }label:{
-                                HStack{Text("Address")
-                                    Image(systemName: "plus.square.fill")
-                                }
+                            } label: {
+                                Label("Manage Addresses", systemImage: "plus.square.fill")
                             }
-                        if let address = addVM.defaultAddress {
-                            VStack{
-                                Text("Phone: \(address.phone)")
-                                Text("Street: \(address.street)")
-                                HStack{
-                                Text("City: \(address.city)")
-                                Text("State: \(address.state)")
+
+                            if let address = addVM.defaultAddress {
+
+                                GroupBox("Default Address") {
+
+                                    VStack(alignment: .leading, spacing: 6) {
+
+                                        LabeledContent("Phone", value: address.phone)
+                                        LabeledContent("Street", value: address.street)
+                                        LabeledContent("City", value: address.city)
+                                        LabeledContent("State", value: address.state)
+                                        LabeledContent("Pincode", value: address.pincode)
+
+                                    }
                                 }
 
-                                Text("Pincode: \(address.pincode)")
-                                
+                            } else {
+                                Text("No default address selected")
+                                    .foregroundStyle(.secondary)
                             }
-                            .font(.body)
-                        } else {
-                            
-                            Text("No default address selected")
-                                .foregroundColor(.secondary)
-
                         }
-                        
-                        
-                        
                     }
                 
                 .frame(maxWidth: 450)
