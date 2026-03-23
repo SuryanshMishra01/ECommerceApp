@@ -12,9 +12,8 @@ import FirebaseAuth
 
 
 struct SignUpView: View {
-    
+    @EnvironmentObject var appState: AppState
     @EnvironmentObject var profileVM: UserProfileViewModel
-    @EnvironmentObject var navigation: NavigationManager
     @State private var firstName = ""
     @State private var lastName = ""
     @State private var email = ""
@@ -34,8 +33,9 @@ struct SignUpView: View {
             VStack{
                 Text("WG ECommerce App")
                     .font(.largeTitle.bold())
-                Text("Welcome to theWorld of ECommerce")
-                    .foregroundColor(Color.blue)
+                    .foregroundColor(AppColors.textPrimary)
+                Text("Welcome to the World of ECommerce")
+                    .foregroundColor(AppColors.secondary)
                 HStack{
                     TextField("First Name", text: $firstName)
                     TextField("Last Name", text: $lastName)
@@ -51,7 +51,8 @@ struct SignUpView: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                PrimaryButton(title: "Procced"){
+                
+                PrimaryButton(title: "Register"){
                     authService.signUp(
                         email: email,
                         password: password
@@ -63,7 +64,8 @@ struct SignUpView: View {
                                
                                profileVM.createProfile(uid: uid, email: email, firstName: firstName, lastName: lastName)
                             }
-                            navigation.navigate(to: ._main)
+                            // successful signup
+                            appState.authScreen = .login
 
                         case .failure(let error):
                             print(error.localizedDescription)
@@ -88,13 +90,12 @@ struct SignUpView: View {
                     
                     
                 }
-                Button("Signin existing account"){
-                    navigation.navigate(to: .login)
+                SecondaryButton(title: "Signin existing account"){
+                    // login state without signup
+                    appState.authScreen = .login
                 }
                 .frame(width: 250)
-                .background(Color.blue)
-                .cornerRadius(8)
-                
+                              
                 Spacer()
                 
                 HStack{
@@ -115,5 +116,4 @@ struct SignUpView: View {
 
 #Preview {
     SignUpView()
-        .environmentObject(NavigationManager())
 }

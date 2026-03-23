@@ -10,7 +10,6 @@ struct ProductCard: View {
 
     @State var product: ProductModel
     @EnvironmentObject var cartVM: CartViewModel
-    @EnvironmentObject var navigation : NavigationManager
     @State var showDetail = false
     
     
@@ -45,7 +44,7 @@ struct ProductCard: View {
             
             
             // Add to Cart Button
-               cartButton
+            CartButton(product: product)
             Button{
                 showDetail = true
             }label: {
@@ -58,57 +57,10 @@ struct ProductCard: View {
         .shadow(color: .black.opacity(0.1), radius: 4)
         // FULL SCREEN PRESENTATION
         .sheet(isPresented: $showDetail) {
-            ProductDetailView(productID: product.id)
-        }
-    }
-    
-    @ViewBuilder
-    var cartButton: some View {
-
-        if quantity == 0 {
-
-            Button {
+            ProductDetailView(productID: product.id){
                 cartVM.addProduct(product)
-            } label: {
-
-                Text("Add to Cart")
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding(8)
-                    .background(AppColors.accent)
-                    .foregroundColor(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
             }
-
-        } else {
-
-            HStack {
-
-                Button {
-                    cartVM.removeProduct(product)
-                } label: {
-                    Image(systemName: "minus.circle.fill")
-                        .foregroundColor(AppColors.primary)
-                }
-
-                Spacer()
-
-                Text("\(quantity)")
-                    .fontWeight(.bold)
-                    .foregroundColor(AppColors.textPrimary)
-
-                Spacer()
-
-                Button {
-                    cartVM.addProduct(product)
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .foregroundColor(AppColors.primary)
-                }
-            }
-            .font(.title3)
-            .padding(.vertical, 4)
         }
     }
+   
 }

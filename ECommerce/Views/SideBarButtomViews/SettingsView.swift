@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
    @StateObject var vm = SettingsViewModel()
+    @EnvironmentObject var theme: ThemeManager
     @EnvironmentObject var profileVM: UserProfileViewModel
 
     var body: some View {
@@ -19,7 +20,8 @@ struct SettingsView: View {
                 
                 Section("Preferences") {
                     Toggle("Receive Notifications", isOn: $vm.notifications)
-                    Toggle("Dark Mode", isOn: $vm.darkMode)
+                    Toggle("Dark Mode", isOn: $theme.isDarkMode)
+                        .padding()
                 }
                 Section("Account"){
                    

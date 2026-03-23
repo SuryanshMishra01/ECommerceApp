@@ -132,6 +132,7 @@ struct CartView: View {
                     .background(AppColors.accent)
                     .foregroundColor(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
+
             }
 
         }
@@ -141,11 +142,13 @@ struct CartView: View {
             
             if orderPlaced {
                 Text("Order placed successfully")
-                    .padding()
+                    .foregroundColor(AppColors.textPrimary)
                     .background(AppColors.background)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .shadow(radius: 5)
                     .transition(.opacity)
+                    .padding()
+
             }
         }
         .animation(.easeInOut, value: orderPlaced)

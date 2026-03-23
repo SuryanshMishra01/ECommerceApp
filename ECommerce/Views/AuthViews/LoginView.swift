@@ -9,8 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct LoginView: View {
-    
-    @EnvironmentObject var navigation: NavigationManager
+    @EnvironmentObject var appState: AppState
     @EnvironmentObject var profileVM: UserProfileViewModel
     private let authService = AuthService()
     @State var email: String = ""
@@ -40,8 +39,9 @@ struct LoginView: View {
                             Task { @MainActor in
                                 profileVM.loadProfile(uid: uid)
                             }
-                            navigation.navigate(to: ._main)
-
+                            
+                            // Successful Login 
+                            appState.isAuthenticated = true
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
@@ -52,7 +52,7 @@ struct LoginView: View {
                 HStack{
                     Text("New here?")
                     Button("Create an account"){
-                        navigation.navigateBackAuth()
+                        appState.authScreen = .signup                      // back to signup
                     }
                         .foregroundColor(.blue)
                 }
@@ -81,5 +81,4 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
-        .environmentObject(NavigationManager())
 }

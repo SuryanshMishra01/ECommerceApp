@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProductDetailView: View {
     @EnvironmentObject var homeVM: HomeViewModel
+    @EnvironmentObject var orderVM: OrdersViewModel
+    @State private var orderPlaced = false
     @Environment(\.dismiss) var dismiss
     
     let productID: Int
@@ -108,32 +110,23 @@ struct ProductDetailView: View {
                 
                 // MARK: - Action Buttons
                 HStack(spacing: 16) {
-                    if let addToCart{
-                        Button {
-                            addToCart()
-                        } label: {
-                            Text("Add to Cart")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(AppColors.accent)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                        }
-                    .disabled(product?.stock ?? 0 == 0)
-                    }
                 
-                    
-                    
-                    Button {
-                        // Buy Now intentionally empty
-                    } label: {
-                        Text("Buy Now")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(AppColors.primary)
-                            .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                    if let product = product{
+                        CartButton(product: product)
                     }
+                    
+                    PrimaryButton(title: "Buy Now"){
+                        orderVM.checkout(totalItems: 1, totalAmount: product?.price ?? 0)
+
+                        orderPlaced = true
+
+                        Task {
+                            try? await Task.sleep(for: .seconds(1.5))
+                            await homeVM.loadProducts()
+                            orderPlaced = false
+                        }
+                    }
+                   
                 }
                 Button("Close"){
                     dismiss()
@@ -142,5 +135,19 @@ struct ProductDetailView: View {
             .padding()
         }
         .navigationTitle("Product Details")
+        .overlay {
+            
+            if orderPlaced {
+                Text("Order placed successfully")
+                    .foregroundColor(AppColors.textPrimary)
+                    .background(AppColors.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .shadow(radius: 5)
+                    .transition(.opacity)
+                    .padding()
+
+            }
+        }
+        .animation(.easeInOut, value: orderPlaced)
     }
 }

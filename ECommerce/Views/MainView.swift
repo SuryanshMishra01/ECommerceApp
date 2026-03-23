@@ -11,7 +11,6 @@ internal import CoreData
 
 struct MainView: View {
     
-    @EnvironmentObject var navigation: NavigationManager
     @State private var selectedMenu: Menu = .home
 
     var body: some View {
