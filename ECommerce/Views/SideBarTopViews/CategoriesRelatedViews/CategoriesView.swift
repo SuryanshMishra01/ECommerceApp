@@ -10,34 +10,44 @@ internal import CoreData
 
 struct CategoriesView: View {
   
+    @EnvironmentObject var homeVM: HomeViewModel
     
-    @EnvironmentObject var navigation: NavigationManager
 
     var body: some View {
-//        List {
-//            Button {
-//                navigation.navigate(to: .category(cat: K.Category.beauty))
-//            } label: {
-//                CategoryRowView(title: "Beauty Products", category: K.Category.beauty)
-//            }
-//            Button {
-//                navigation.navigate(to: .category(cat: K.Category.furniture))
-//            } label: {
-//                CategoryRowView(title: "Furniture", category: K.Category.furniture)
-//            }
-//            Button {
-//                navigation.navigate(to: .category(cat: K.Category.fragrance))
-//            } label: {
-//                CategoryRowView(title: "Fragrance", category: K.Category.fragrance)
-//            }
-//            Button {
-//                navigation.navigate(to: .category(cat: K.Category.grocery))
-//            } label: {
-//                CategoryRowView(title: "Groceries", category: K.Category.grocery)
-//            }
-//        }
-//        .navigatio nTitle(Text("Categories"))
+        List {
+            NavigationLink{
+                
+            }label: {
+                <#code#>
+            }
+            NavigationLink{
+                
+            }label: {
+                <#code#>
+            }
+            NavigationLink{
+                
+            }label: {
+                <#code#>
+            }
+            NavigationLink{
+                
+            }label: {
+                <#code#>
+            }
+        }
+        .navigationTitle("Categories")
     }
+    
+    func CategoryFirstImage(category: String) -> some View {
+        if let urlString = homeVM.products.first(where: {$0.category == category})?.images.last{
+            ProductImageView(url: urlString, height: 250)
+        }else{
+            Text("No Image of \(category.capitalized) Product")
+        }
+    }
+   
+    
 }
 
 #Preview {

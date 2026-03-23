@@ -17,34 +17,34 @@ struct CategoryItemsView: View {
     }
     
      var body: some View {
-//         VStack(alignment: .leading) {
-//
-//             // Product Title
-//             Text(product)
-//                 .font(.headline)
-//                 .lineLimit(2)
-//             
-//             
-//             // Price
-//             Text("$\(product.price, specifier: "%.2f")")
-//                 .font(.subheadline)
-//                 .fontWeight(.semibold)
-//                 .foregroundColor(.orange)
-//             
-//             
-//             // Availability
-//             Text(product.availabilityStatus)
-//                 .font(.caption)
-//                 .foregroundColor(product.stock > 0 ? .green : .red)
-//             
-//             
-//             // Add to Cart Button
-//            
-//         }
-//         .padding()
-//         .background(.thinMaterial)
-//         .clipShape(RoundedRectangle(cornerRadius: 12))
-//         .shadow(radius: 2)
+         VStack(alignment: .leading) {
+
+             // Product Title
+             Text(product)
+                 .font(.headline)
+                 .lineLimit(2)
+             
+             
+             // Price
+             Text("$\(product.price, specifier: "%.2f")")
+                 .font(.subheadline)
+                 .fontWeight(.semibold)
+                 .foregroundColor(.orange)
+             
+             
+             // Availability
+             Text(product.availabilityStatus)
+                 .font(.caption)
+                 .foregroundColor(product.stock > 0 ? .green : .red)
+             
+             
+             // Add to Cart Button
+            
+         }
+         .padding()
+         .background(.thinMaterial)
+         .clipShape(RoundedRectangle(cornerRadius: 12))
+         .shadow(radius: 2)
      }
     
 }

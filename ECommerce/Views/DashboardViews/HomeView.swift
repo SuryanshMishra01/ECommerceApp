@@ -23,15 +23,17 @@ struct HomeView: View {
     var body: some View {
         
         
-        
+    
         ScrollView {
             
             LazyVGrid(columns: columns, spacing: 16) {
                 
                 ForEach(homeVM.filteredProducts) { product in
-                  
+                    NavigationLink {
+                        ProductDetailView(productID: product.id)
+                    } label: {
                         ProductCard(product: product)
-                    
+                    }
                 }
                 
                 if homeVM.isLoading {

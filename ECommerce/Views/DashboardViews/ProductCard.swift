@@ -10,7 +10,6 @@ struct ProductCard: View {
 
     @State var product: ProductModel
     @EnvironmentObject var cartVM: CartViewModel
-    @State var showDetail = false
     
     
     var quantity: Int {
@@ -45,22 +44,13 @@ struct ProductCard: View {
             
             // Add to Cart Button
             CartButton(product: product)
-            Button{
-                showDetail = true
-            }label: {
-                Text("Details")
-            }
+         
         }
         .padding()
         .background(AppColors.card)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.1), radius: 4)
-        // FULL SCREEN PRESENTATION
-        .sheet(isPresented: $showDetail) {
-            ProductDetailView(productID: product.id){
-                cartVM.addProduct(product)
-            }
-        }
+      
     }
    
 }
