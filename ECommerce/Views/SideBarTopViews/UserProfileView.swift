@@ -19,6 +19,7 @@ struct UserProfileView: View {
         Text("Profile")
             .font(.title.bold())
             .padding()
+            .foregroundColor(AppColors.textPrimary)
         ScrollView{
             VStack(spacing: 20) {
                 
@@ -27,7 +28,7 @@ struct UserProfileView: View {
                     Image(systemName: "person.crop.circle.fill")
                         .resizable()
                         .frame(width: 120, height: 120)
-                        .foregroundColor(.gray)
+                        .foregroundColor(AppColors.textSecondary)
                     
                     Text(vm.profile?.firstName ?? "")
                         .font(.title2)
@@ -74,7 +75,7 @@ struct UserProfileView: View {
 
                             } else {
                                 Text("No default address selected")
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(AppColors.textSecondary)
                             }
                         }
                     }

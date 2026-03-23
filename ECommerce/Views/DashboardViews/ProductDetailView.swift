@@ -40,7 +40,7 @@ struct ProductDetailView: View {
                 Text("$\(product?.price ?? 0.0, specifier: "%.2f")")
                     .font(.title3)
                     .fontWeight(.semibold)
-                    .foregroundColor(.orange)
+                    .foregroundColor(AppColors.accent)
                 
                 
                 // MARK: - Rating
@@ -54,12 +54,12 @@ struct ProductDetailView: View {
                 
                 // MARK: - Availability
                 Text(product?.availabilityStatus ?? "")
-                    .foregroundColor(product?.stock ?? 0 > 0 ? .green : .red)
+                    .foregroundColor(product?.stock ?? 0 > 0 ? AppColors.primary : .red)
                 
                 
                 // MARK: - Description
                 Text(product?.description ?? "")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.textSecondary)
                 
                 
                 Divider()
@@ -96,8 +96,7 @@ struct ProductDetailView: View {
                                 
                                 Text(review.date)
                                     .font(.caption)
-                                    .foregroundColor(.secondary)
-                                
+                                    .foregroundColor(AppColors.textSecondary)
                                 Divider()
                             }
                         }
@@ -116,7 +115,7 @@ struct ProductDetailView: View {
                             Text("Add to Cart")
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.orange)
+                                .background(AppColors.accent)
                                 .foregroundColor(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
@@ -131,7 +130,7 @@ struct ProductDetailView: View {
                         Text("Buy Now")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green)
+                            .background(AppColors.primary)
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                     }

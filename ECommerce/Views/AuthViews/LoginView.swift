@@ -22,7 +22,7 @@ struct LoginView: View {
                 Text("Welcome Back !")
                     .font(.largeTitle.bold())
                     .padding(.vertical,5)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(AppColors.textSecondary)
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.top)
@@ -32,16 +32,12 @@ struct LoginView: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(8)
-                Button("Continue"){
-                    authService.logIn(
-                        email: email,
-                        password: password
-                    ) { result in
+                PrimaryButton(title: "Continue") {
+                    authService.logIn(email: email, password: password) { result in
                         switch result {
                         case .success(let authResult):
                             let uid = authResult.user.uid
-
-                            Task {@MainActor in
+                            Task { @MainActor in
                                 profileVM.loadProfile(uid: uid)
                             }
                             navigation.navigate(to: ._main)
@@ -52,8 +48,7 @@ struct LoginView: View {
                     }
                 }
                 .frame(maxWidth: 250)
-                .background(Color.green)
-                .cornerRadius(8)
+              
                 HStack{
                     Text("New here?")
                     Button("Create an account"){

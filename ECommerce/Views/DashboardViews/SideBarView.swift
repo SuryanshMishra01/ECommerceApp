@@ -40,9 +40,12 @@ struct SideBarView: View {
     var body: some View {
         List(Menu.allCases, id: \.self, selection: $selected) { menuItem in
             Label(menuItem.rawValue, systemImage: menuItem.icon)
+                .foregroundColor(AppColors.textPrimary)
                 .tag(menuItem)
         }
         .listStyle(SidebarListStyle())
+        .tint(AppColors.primary)
+        .background(AppColors.background)
     }
 }
 

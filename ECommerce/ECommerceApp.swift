@@ -22,8 +22,10 @@ struct ECommerceApp: App {
     @StateObject var addVM = AddressViewModel()
     @StateObject var cartVM = CartViewModel()
     @StateObject var ordersVM = OrdersViewModel()
-    //Navigation
+    // Navigation
     @StateObject var navigation = NavigationManager()
+    // Theme
+   @StateObject var theme = ThemeManager()
     
  
     
@@ -53,6 +55,8 @@ struct ECommerceApp: App {
             .environmentObject(cartVM)
             .environmentObject(ordersVM)
             .environmentObject(addVM)
+            .preferredColorScheme(theme.isDarkMode ? .dark : .light)               // color scheme injection in app
+
             
             
         }

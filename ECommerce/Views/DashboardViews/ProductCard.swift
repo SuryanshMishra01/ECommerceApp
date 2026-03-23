@@ -26,20 +26,22 @@ struct ProductCard: View {
                  // Product Title)
             Text(product.title)
                 .font(.headline)
+                .foregroundColor(AppColors.textPrimary)
                 .lineLimit(2)
+            
             
             
             // Price
             Text("$\(product.price, specifier: "%.2f")")
                 .font(.subheadline)
                 .fontWeight(.semibold)
-                .foregroundColor(.orange)
+                .foregroundColor(AppColors.accent)
             
             
             // Availability
             Text(product.availabilityStatus)
                 .font(.caption)
-                .foregroundColor(product.stock > 0 ? .green : .red)
+                .foregroundColor(product.stock > 0 ? AppColors.primary : .red)
             
             
             // Add to Cart Button
@@ -51,9 +53,9 @@ struct ProductCard: View {
             }
         }
         .padding()
-        .background(.thinMaterial)
+        .background(AppColors.card)
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        .shadow(radius: 2)
+        .shadow(color: .black.opacity(0.1), radius: 4)
         // FULL SCREEN PRESENTATION
         .sheet(isPresented: $showDetail) {
             ProductDetailView(productID: product.id)
@@ -74,7 +76,7 @@ struct ProductCard: View {
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding(8)
-                    .background(Color.orange)
+                    .background(AppColors.accent)
                     .foregroundColor(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             }
@@ -87,12 +89,14 @@ struct ProductCard: View {
                     cartVM.removeProduct(product)
                 } label: {
                     Image(systemName: "minus.circle.fill")
+                        .foregroundColor(AppColors.primary)
                 }
 
                 Spacer()
 
                 Text("\(quantity)")
                     .fontWeight(.bold)
+                    .foregroundColor(AppColors.textPrimary)
 
                 Spacer()
 
@@ -100,6 +104,7 @@ struct ProductCard: View {
                     cartVM.addProduct(product)
                 } label: {
                     Image(systemName: "plus.circle.fill")
+                        .foregroundColor(AppColors.primary)
                 }
             }
             .font(.title3)

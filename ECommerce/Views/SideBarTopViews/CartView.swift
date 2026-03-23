@@ -38,7 +38,7 @@ struct CartView: View {
             
             Text("Your cart is empty")
                 .font(.largeTitle)
-                .foregroundColor(.gray)
+                .foregroundColor(AppColors.textSecondary)
                 .padding()
         }
     }
@@ -63,7 +63,7 @@ struct CartView: View {
                         
                         Text("$\(item.product.price, specifier: "%.2f")")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(AppColors.textSecondary)
                     }
                     Spacer()
                     HStack(spacing: 10) {
@@ -72,15 +72,19 @@ struct CartView: View {
                             cartVM.removeProduct(item.product)
                         } label: {
                             Image(systemName: "minus.circle.fill")
+                                .foregroundColor(AppColors.primary)
+
                         }
                         
                         Text("\(item.quantity)")
                             .fontWeight(.bold)
+                            .foregroundColor(AppColors.textPrimary)
                         
                         Button {
                             cartVM.addProduct(item.product)
                         } label: {
                             Image(systemName: "plus.circle.fill")
+                                .foregroundColor(AppColors.primary)
                         }
                     }
                     .font(.title3)
@@ -125,20 +129,20 @@ struct CartView: View {
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.orange)
+                    .background(AppColors.accent)
                     .foregroundColor(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             }
 
         }
         .padding()
-        .background(.ultraThinMaterial)
+        .background(AppColors.background)
         .overlay {
             
             if orderPlaced {
                 Text("Order placed successfully")
                     .padding()
-                    .background(.ultraThinMaterial)
+                    .background(AppColors.background)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .shadow(radius: 5)
                     .transition(.opacity)

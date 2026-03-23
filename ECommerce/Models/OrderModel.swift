@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OrderModel: Identifiable {
+struct OrderModel: Identifiable, Hashable{
     
     let id: UUID
     let timestamp: Date

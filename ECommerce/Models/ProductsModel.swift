@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductModel: Identifiable{
+struct ProductModel: Identifiable, Hashable{
     let id: Int
     let title: String
     let description: String
@@ -47,7 +47,7 @@ extension ProductModel{
 }
 
 
-struct ReviewModel: Identifiable{
+struct ReviewModel: Identifiable, Hashable{
     var id: String { date + reviewerEmail }
     let date: String
     let reviewerName: String

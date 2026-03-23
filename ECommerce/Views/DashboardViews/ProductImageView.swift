@@ -33,13 +33,13 @@ struct ProductImageView: View {
                 Image(systemName: "photo")
                     .resizable()
                     .scaledToFit()
-                    .foregroundColor(.gray)
+                    .foregroundColor(AppColors.textSecondary)
                     .padding()
             }
         }
         .frame(height: height)
         .frame(maxWidth: .infinity)
-        .background(Color.gray.opacity(0.2))
+        .background(AppColors.textSecondary.opacity(0.2))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }

@@ -51,8 +51,7 @@ struct SignUpView: View {
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-              
-                Button("Proceed") {
+                PrimaryButton(title: "Procced"){
                     authService.signUp(
                         email: email,
                         password: password
@@ -72,23 +71,20 @@ struct SignUpView: View {
                     }
                 }
                 .frame(width: 250)
-
-                .background(Color.green)
-                .cornerRadius(8)
-                
+             
                 HStack{
                     Divider()
                     
                         .frame(maxWidth: .infinity, maxHeight: 1)
-                        .background(Color.gray)
+                        .background(AppColors.textSecondary)
                     
                     Text("OR")
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(AppColors.textSecondary)
                         .padding(.horizontal, 8)
                     
                     Divider()
                         .frame(maxWidth: .infinity, maxHeight: 1)
-                        .background(Color.gray)
+                        .background(AppColors.textSecondary)
                     
                     
                 }

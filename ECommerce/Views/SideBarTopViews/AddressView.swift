@@ -87,17 +87,18 @@ struct AddressView: View {
                     .font(.headline)
 
                 Text(address.street)
+                
 
                 Text("\(address.city), \(address.state) \(address.pincode)")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
             }
+            .foregroundColor(AppColors.textSecondary)
 
             Spacer()
 
             if addVM.defaultAddress?.id == address.id {
                 Label("Default", systemImage: "checkmark.circle.fill")
-                    .foregroundColor(.green)
+                    .foregroundColor(AppColors.textPrimary)
             }
         }
         .contentShape(Rectangle())

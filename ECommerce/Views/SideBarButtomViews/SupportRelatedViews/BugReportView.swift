@@ -35,7 +35,7 @@ struct BugReportView: View {
                 ZStack(alignment: .topLeading){
                         if bugReportDescription.isEmpty{
                             Text("Enter a description")
-                                .foregroundColor(.gray)
+                                .foregroundColor(AppColors.textSecondary)
                                 .padding(.top, 10)
                                 .padding(.leading, 5)
                             
@@ -51,7 +51,7 @@ struct BugReportView: View {
                     .frame(height: 150)
                     .overlay{
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(AppColors.textSecondary.opacity(0.3), lineWidth: 1)
                     }
                 }
             Button("Submit"){
