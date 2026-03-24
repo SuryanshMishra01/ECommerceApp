@@ -8,6 +8,7 @@ import Foundation
 
 struct ProductsResponseDTO: Codable{
     let products: [ProductDTO]
+    let total: Int
 }
 
 

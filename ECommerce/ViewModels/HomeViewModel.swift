@@ -14,7 +14,7 @@ class HomeViewModel: ObservableObject {
     
     private let repository = ProductsRepository()
     private var skip = 0
-    private let limit = 20
+    private let limit = 30
     private var total = Int.max
     @Published var products: [ProductModel] = []
 
@@ -49,11 +49,11 @@ class HomeViewModel: ObservableObject {
         defer { isLoading = false }
         
         do {
-            let fetchedTotal = try await repository.syncProducts(skip: skip, limit: limit)
+            let totalToFetch = try await repository.syncProducts(skip: skip, limit: limit)
             
             skip += limit
             
-            total = fetchedTotal
+            total = totalToFetch
             
             products = try repository.fetchProducts()
             
@@ -65,11 +65,10 @@ class HomeViewModel: ObservableObject {
     
     func loadMoreProductsIfNeeded(currentItem: ProductModel) async {
         
-        guard let index = products.firstIndex(where: { $0.id == currentItem.id }) else { return }
-        
-        if index >= products.count - 5 {
+        if currentItem.id == products.last?.id {
             await loadMoreProducts()
         }
+
     }
 }
     

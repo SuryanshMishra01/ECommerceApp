@@ -20,7 +20,7 @@ class ProductsRepository {
         
         saveProducts(response.products)
         
-        return response.products.count
+        return response.total
     }
     
     // just a helper created & used for testing
