@@ -50,8 +50,10 @@ struct HomeView: View {
         }
       
         .navigationTitle("Products")
-        .task {
-            await homeVM.loadProducts()   
+        .onAppear{
+            Task{
+                await homeVM.loadProducts()
+            }
         }
        
     }
