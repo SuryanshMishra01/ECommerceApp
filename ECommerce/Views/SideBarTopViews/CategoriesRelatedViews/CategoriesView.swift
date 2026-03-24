@@ -14,38 +14,38 @@ struct CategoriesView: View {
     
 
     var body: some View {
-        List {
-            NavigationLink{
-                
-            }label: {
-                <#code#>
+        VStack{
+            HStack{
+                NavigationLink{
+                    CategoryItemsView(category: K.Category.fragrance)
+                }label: {
+                    CategoryCard(category: K.Category.fragrance)
+                }
+                NavigationLink{
+                    CategoryItemsView(category: K.Category.furniture)
+                }label: {
+                    CategoryCard(category: K.Category.furniture)
+                }
             }
-            NavigationLink{
-                
-            }label: {
-                <#code#>
+            .padding()
+            HStack{
+                NavigationLink{
+                    CategoryItemsView(category: K.Category.grocery)
+                }label: {
+                    CategoryCard(category: K.Category.grocery)
+                }
+                NavigationLink{
+                    CategoryItemsView(category: K.Category.beauty)
+                }label: {
+                    CategoryCard(category: K.Category.beauty)
+                }
             }
-            NavigationLink{
-                
-            }label: {
-                <#code#>
-            }
-            NavigationLink{
-                
-            }label: {
-                <#code#>
-            }
+            .padding()
         }
+        .padding()
         .navigationTitle("Categories")
     }
     
-    func CategoryFirstImage(category: String) -> some View {
-        if let urlString = homeVM.products.first(where: {$0.category == category})?.images.last{
-            ProductImageView(url: urlString, height: 250)
-        }else{
-            Text("No Image of \(category.capitalized) Product")
-        }
-    }
    
     
 }

@@ -22,12 +22,18 @@ struct DetailView: View {
         switch type{
         case .profile: UserProfileView()
 
-        case .home: HomeView()
-        case .categories: CategoriesView()
+        case .home:
+            NavigationStack{
+                HomeView()
+            }
+        case .categories:
+            NavigationStack{
+                CategoriesView()
+            }
         case .cart: CartView()
         case .settings: SettingsView()
-        case .orders: OrdersView()
-        
+        case .orders:
+                OrdersView()
         case .support: SupportView()
             
         }
