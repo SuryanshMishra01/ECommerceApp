@@ -14,26 +14,16 @@ class ProductsRepository {
     let apiService = ProductAPIService()
     let context = PersistenceController.shared.context
     
-    func syncProducts() async throws{
+    func syncProducts(skip: Int, limit: Int) async throws -> Int {
         
-//        let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
-
-//       let count = try context.count(for: request)
-
-       // If products already exist, skip API call
-//       if count > 0 {
-//           return
-//       }
-        do{
-            deleteAllProducts()
-
-            let products = try await apiService.fetchData()
-            saveProducts(products)
-        }catch{
-            throw error
-        }
+        let response = try await apiService.fetchData(skip: skip, limit: limit)
+        
+        saveProducts(response.products)
+        
+        return response.products.count
     }
     
+    // just a helper created & used for testing
     private func deleteAllProducts() {
 
         let request: NSFetchRequest<NSFetchRequestResult> = ProductEntity.fetchRequest()
@@ -51,14 +41,14 @@ class ProductsRepository {
         for dto in dtos{
             let request: NSFetchRequest<ProductEntity> = ProductEntity.fetchRequest()
             request.predicate = NSPredicate(format: "productID == %d", dto.id)
-//            let existing = try? context.fetch(request).first
-//            if existing == nil{
+            let existing = try? context.fetch(request).first
+            if existing == nil{
                 _ = ProductEntity.fromDTO(dto, context: context)
-//            }
+            }
         
             
         }
-        try? PersistenceController.shared.save(context: context)
+        save()
     }
     
     func fetchProducts() throws -> [ProductModel]{
@@ -66,6 +56,15 @@ class ProductsRepository {
         request.sortDescriptors = [ NSSortDescriptor(key: "productID", ascending: true) ]
         let entities = try context.fetch(request)
         return entities.map { ProductModel(entity: $0)}
+    }
+    
+    // MARK: Save Context
+
+    private func save() {
+
+        if context.hasChanges {
+            try? context.save()
+        }
     }
 }
 

@@ -34,6 +34,11 @@ struct HomeView: View {
                     } label: {
                         ProductCard(product: product)
                     }
+                    .onAppear {
+                            Task {
+                                await homeVM.loadMoreProductsIfNeeded(currentItem: product)
+                            }
+                        }
                 }
                 
                 if homeVM.isLoading {
@@ -45,12 +50,10 @@ struct HomeView: View {
         }
       
         .navigationTitle("Products")
-        
         .task {
-            if homeVM.products.isEmpty {
-                await homeVM.loadProducts()
-            }
+            await homeVM.loadProducts()   
         }
+       
     }
 }
 

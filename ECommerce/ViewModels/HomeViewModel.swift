@@ -13,13 +13,17 @@ internal import Combine
 class HomeViewModel: ObservableObject {
     
     private let repository = ProductsRepository()
+    private var skip = 0
+    private let limit = 20
+    private var total = Int.max
+    @Published var products: [ProductModel] = []
+
 //    private var prefetcher: ImagePrefetcher?       // image prefetcher for caching
     
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     
     // To make it searchable
-    @Published var products: [ProductModel] = []
     @Published var searchText: String = ""
     var filteredProducts	: [ProductModel] {
         if searchText.isEmpty {
@@ -31,15 +35,40 @@ class HomeViewModel: ObservableObject {
     }
     
     func loadProducts() async {
-        defer{ isLoading = false }
+        guard products.isEmpty else { return }
+        
+        await loadMoreProducts()
+    }
+    
+    func loadMoreProducts() async {
+        
+        guard !isLoading else { return }
+        guard products.count < total else { return }
+        
+        isLoading = true
+        defer { isLoading = false }
+        
         do {
-            isLoading = true
-            try await repository.syncProducts()
+            let fetchedTotal = try await repository.syncProducts(skip: skip, limit: limit)
+            
+            skip += limit
+            
+            total = fetchedTotal
             
             products = try repository.fetchProducts()
             
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+    
+    
+    func loadMoreProductsIfNeeded(currentItem: ProductModel) async {
+        
+        guard let index = products.firstIndex(where: { $0.id == currentItem.id }) else { return }
+        
+        if index >= products.count - 5 {
+            await loadMoreProducts()
         }
     }
 }

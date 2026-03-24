@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RootView: View {
     
+    @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var appState: AppState
     
     var body: some View {
@@ -24,5 +25,8 @@ struct RootView: View {
                 LoginView()
             }
         }
+            
+           
     }
+
 }

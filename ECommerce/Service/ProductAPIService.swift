@@ -14,9 +14,9 @@ class ProductAPIService: ObservableObject {
     let logger = Logger(subsystem: "com.wg.ECommerce", category: "ProductAPIService")
     
     
-    func fetchData() async throws  -> [ProductDTO]{
+    func fetchData(skip: Int, limit: Int) async throws  -> ProductsResponseDTO{
     
-        guard let url = URL(string: K.api) else {
+        guard let url = URL(string: "\(K.api)?skip=\(skip)&limit=\(limit)")  else {
             throw URLError(.badURL)
         }
    
@@ -27,7 +27,7 @@ class ProductAPIService: ObservableObject {
         
         let decoder = JSONDecoder()
         let decodedData = try decoder.decode(ProductsResponseDTO.self, from: data)
-        return decodedData.products
+        return decodedData
     }
     
     

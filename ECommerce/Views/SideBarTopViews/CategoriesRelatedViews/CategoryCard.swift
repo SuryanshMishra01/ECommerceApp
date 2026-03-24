@@ -18,7 +18,7 @@ struct CategoryCard: View {
     var body: some View {
         
         VStack(alignment: .center) {
-            ProductImageView(url: firstProduct.images.first ?? "")
+            ProductImageView(url: firstProduct.images.first ?? "", height: 250)
             // Product Title)
             Text(firstProduct.category)
                 .font(.headline)
