@@ -60,12 +60,13 @@ extension AddressEntity {
                           context: NSManagedObjectContext) -> AddressEntity {
 
         let address = AddressEntity(context: context)
-
+        address.id = model.id
         address.street = model.street
         address.city = model.city
         address.state = model.state
         address.pincode = model.pincode
         address.phone = model.phone
+        address.isDefault = model.isDefault
 
         return address
     }
@@ -73,11 +74,13 @@ extension AddressEntity {
     func toModel() -> AddressModel {
 
         return AddressModel(
+            id: self.id ?? UUID(),
             street: self.street ?? "",
             city: self.city ?? "",
             state: self.state ?? "",
             pincode: self.pincode ?? "",
-            phone: self.phone ?? ""
+            phone: self.phone ?? "",
+            isDefault: self.isDefault
         )
     }
 }

@@ -18,20 +18,30 @@ struct UserProfileModel{
 
 
 struct AddressModel: Identifiable{
-    let id = UUID()
+    let id : UUID 
     let street: String
     let city: String
     let state: String
     let pincode: String
     let phone: String
+    let isDefault: Bool
+    
+    init(
+           id: UUID = UUID(),   
+           street: String,
+           city: String,
+           state: String,
+           pincode: String,
+           phone: String,
+           isDefault: Bool = false
+       ) {
+           self.id = id
+           self.street = street
+           self.city = city
+           self.state = state
+           self.pincode = pincode
+           self.phone = phone
+           self.isDefault = isDefault
+       }
 }
 
-extension AddressModel{
-    init (entity: AddressEntity){
-        self.street = entity.street ?? ""
-        self.city = entity.city ?? ""
-        self.state = entity.state ?? ""
-        self.pincode = entity.pincode ?? ""
-        self.phone = entity.phone ?? ""
-    }
-}

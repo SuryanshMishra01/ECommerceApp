@@ -17,7 +17,7 @@ class AddressRepository{
         request.predicate = NSPredicate(format: "user.userid == %@", userID)
         do{
             let result = try context.fetch(request)
-            return result.map{AddressModel(entity: $0)}
+            return result.map{$0.toModel()}
         }catch{
             print(error)
             return []
@@ -31,17 +31,28 @@ class AddressRepository{
         userRequest.predicate = NSPredicate(format: "userid == %@", userID)
         guard let userEntity = try? context.fetch(userRequest).first else { return }
         
-        let addressEntity = AddressEntity(context: context)
+        let addressEntity = AddressEntity.fromModel(address, context: context)
         addressEntity.user = userEntity
-        addressEntity.phone = address.phone
-        addressEntity.street = address.street
-        addressEntity.city = address.city
-        addressEntity.state = address.state
-        addressEntity.pincode = address.pincode
-        do{
-            try? context.save()
-        }
+  
+        save()
         
+    }
+    
+    func setDefault(_ address: AddressModel){
+        guard let userID = SessionManager.shared.userID else { return }
+
+          let request: NSFetchRequest<AddressEntity> = AddressEntity.fetchRequest()
+          request.predicate = NSPredicate(format: "user.userid == %@", userID)
+
+        do {
+            let addresses = try? context.fetch(request)
+            
+            for addr in addresses ?? [] {
+                addr.isDefault = (addr.id == address.id)
+            }
+        }
+        save()
+         
     }
     
     func deleteAddress(id: UUID) {
@@ -50,7 +61,18 @@ class AddressRepository{
 
         if let result = try? context.fetch(request).first {
             context.delete(result)
-            try? context.save()
+            
+            save()
+        }
+    }
+    
+    func save(){
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
         }
     }
 }

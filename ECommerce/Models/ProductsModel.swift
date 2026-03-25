@@ -15,7 +15,7 @@ struct ProductModel: Identifiable, Hashable{
     let price: Double
     let rating: Double
     var stock: Int
-    let brand: String?
+    let brand: String
     let sku: String
     let reviews: [ReviewModel]?
     let images: [String]
@@ -34,7 +34,7 @@ extension ProductModel{
         self.stock = Int(entity.stock)
         self.rating = Double(entity.rating)
         self.category = entity.category ?? ""
-        self.brand = entity.brand
+        self.brand = entity.brand ?? ""
         self.sku = entity.sku ?? ""
         let imageEntity = entity.images as? Set<ProductImageEntity> ?? []
         self.images = imageEntity.map{ $0.url ?? ""}

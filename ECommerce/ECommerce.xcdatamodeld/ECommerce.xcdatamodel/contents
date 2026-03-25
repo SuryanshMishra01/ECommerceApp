@@ -1,37 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24512" systemVersion="25D125" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Address" representedClassName="AddressEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="city" optional="YES" attributeType="String"/>
-        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="city" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="phone" attributeType="String"/>
         <attribute name="pincode" optional="YES" attributeType="String"/>
-        <attribute name="state" optional="YES" attributeType="String"/>
-        <attribute name="street" optional="YES" attributeType="String"/>
+        <attribute name="state" attributeType="String"/>
+        <attribute name="street" attributeType="String"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="addresses" inverseEntity="UserProfile"/>
     </entity>
     <entity name="CartItem" representedClassName="CartItemEntity" syncable="YES" codeGenerationType="class">
         <attribute name="quantity" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="cartItems" inverseEntity="Product"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="cartItem" inverseEntity="Product"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="cartItems" inverseEntity="UserProfile"/>
     </entity>
     <entity name="Order" representedClassName="OrderEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="orderID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="quantity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="totalPrice" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="orderID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="quantity" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="totalPrice" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="orders" inverseEntity="Product"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserProfile" inverseName="orders" inverseEntity="UserProfile"/>
     </entity>
     <entity name="Product" representedClassName="ProductEntity" syncable="YES" codeGenerationType="class">
         <attribute name="brand" optional="YES" attributeType="String"/>
         <attribute name="category" optional="YES" attributeType="String"/>
-        <attribute name="price" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="productDescription" optional="YES" attributeType="String"/>
-        <attribute name="productID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="rating" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="sku" optional="YES" attributeType="String"/>
-        <attribute name="stock" optional="YES" attributeType="Integer 64" usesScalarValueType="YES"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="cartItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CartItem" inverseName="product" inverseEntity="CartItem"/>
+        <attribute name="price" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="productDescription" attributeType="String"/>
+        <attribute name="productID" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="rating" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sku" attributeType="String"/>
+        <attribute name="stock" attributeType="Integer 64" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="cartItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CartItem" inverseName="product" inverseEntity="CartItem" spotlightIndexingEnabled="YES"/>
         <relationship name="images" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ProductImage" inverseName="product" inverseEntity="ProductImage"/>
         <relationship name="orders" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Order" inverseName="products" inverseEntity="Order"/>
         <relationship name="reviews" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Review" inverseName="product" inverseEntity="Review"/>

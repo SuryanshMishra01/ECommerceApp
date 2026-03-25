@@ -17,6 +17,13 @@ class AddressViewModel: ObservableObject {
  
     func loadAllAddress(){
         addressList = repository.fetchAllAddress()
+        if defaultAddress == nil{
+            for address in addressList {
+                if address.isDefault {
+                    self.defaultAddress = address
+                }
+            }
+        }
         
     }
     
@@ -28,6 +35,7 @@ class AddressViewModel: ObservableObject {
     
     func setDefault(_ address: AddressModel) {
         defaultAddress = address
+        repository.setDefault(address)
     }
     
     func deleteAddress(id: UUID){
