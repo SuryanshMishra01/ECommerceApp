@@ -70,6 +70,12 @@ class HomeViewModel: ObservableObject {
         }
 
     }
+    
+    // helper for testing
+    func deleteAllProducts(){
+        repository.deleteAllProducts()
+        
+    }
 }
     
     //MARK: - Image Caching helper

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+internal import CoreData
+
 
 struct ProductModel: Identifiable, Hashable{
     let id: Int
@@ -48,7 +50,7 @@ extension ProductModel{
 
 
 struct ReviewModel: Identifiable, Hashable{
-    var id: String { date + reviewerEmail }
+    let id: NSManagedObjectID
     let date: String
     let reviewerName: String
     let reviewerEmail: String
@@ -58,6 +60,7 @@ struct ReviewModel: Identifiable, Hashable{
 
 extension ReviewModel{
     init (entity: ReviewEntity){
+        self.id = entity.objectID
         self.date = entity.date ?? ""
         self.reviewerName = entity.reviewerName ?? ""
         self.reviewerEmail = entity.reviewerEmail ?? ""

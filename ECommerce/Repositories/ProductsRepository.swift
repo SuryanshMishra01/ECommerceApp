@@ -24,7 +24,7 @@ class ProductsRepository {
     }
     
     // just a helper created & used for testing
-    private func deleteAllProducts() {
+     func deleteAllProducts() {
 
         let request: NSFetchRequest<NSFetchRequestResult> = ProductEntity.fetchRequest()
 

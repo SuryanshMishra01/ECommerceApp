@@ -10,6 +10,7 @@ internal import CoreData
 import FirebaseCore
 internal import Combine
 
+// Navigation
 class AppState: ObservableObject{
     enum AuthScreen{
         case signup
@@ -32,12 +33,12 @@ struct ECommerceApp: App {
     @StateObject var addVM = AddressViewModel()
     @StateObject var cartVM = CartViewModel()
     @StateObject var ordersVM = OrdersViewModel()
-    // Navigation
-    @StateObject var appState = AppState()       // app state
-
-    @StateObject var navigation = NavigationManager()
+    // app state
+    @StateObject var appState = AppState()
     // Theme
     @StateObject var theme = ThemeManager()
+    // Auth Service
+    @StateObject var authService = AuthService()
     
  
     
@@ -48,12 +49,12 @@ struct ECommerceApp: App {
             
             .environmentObject(homeVM)
             .environmentObject(userProfileVM)
-            .environmentObject(navigation)
             .environmentObject(appState)
             .environmentObject(cartVM)
             .environmentObject(ordersVM)
             .environmentObject(addVM)
             .environmentObject(theme)
+            .environmentObject(authService)
             .preferredColorScheme(theme.isDarkMode ? .dark : .light)               // color scheme injection in app
 
             

@@ -14,18 +14,18 @@ struct CartView: View {
     @State private var orderPlaced = false
     
     var body: some View {
-//        if cartVM.cartItems.isEmpty {
-//            EmptyCartView()
-//        }else{
-            VStack(spacing: 0) {
-                
-                List(cartVM.cartItems, id: \.id) { item in
-                    cartRow(item: item)
-                }
-                
-                cartSummary
+        VStack(spacing: 0) {
+            if cartVM.cartItems.isEmpty {
+                EmptyCartView
+            }else{
+                    
+                    List(cartVM.cartItems, id: \.id) { item in
+                        cartRow(item: item)
+                    }
+                    
+                    cartSummary
             }
-//        }
+        }
         .onAppear {
             cartVM.loadCart()
         }

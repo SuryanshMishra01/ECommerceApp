@@ -128,9 +128,7 @@ struct ProductDetailView: View {
                     }
                    
                 }
-                Button("Close"){
-                    dismiss()
-                }
+               
             }
             .padding()
         }

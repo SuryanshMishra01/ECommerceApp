@@ -11,7 +11,8 @@ import FirebaseAuth
 struct LoginView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var profileVM: UserProfileViewModel
-    private let authService = AuthService()
+    @EnvironmentObject var authService: AuthService
+    
     @State var email: String = ""
     @State var password: String = ""
     
@@ -74,6 +75,9 @@ struct LoginView: View {
                 .scaledToFill()
                 .opacity(0.8)
         )
+        .alert(authService.alertMessage, isPresented: $authService.showAlert) {
+                  Button("OK", role: .cancel) {}
+              }
      
     }
       

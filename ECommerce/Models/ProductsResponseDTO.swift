@@ -13,7 +13,7 @@ struct ProductsResponseDTO: Codable{
 
 
 
-struct ProductDTO: Codable, Identifiable{
+struct ProductDTO: Codable{
     let id: Int
     let title: String
     let description: String
@@ -34,12 +34,10 @@ struct ProductDTO: Codable, Identifiable{
     
 }
 
+// Removed the Identifiable from both DTOs
 
 
-
-struct ReviewDTO: Codable, Identifiable{
-     
-    var id: String  {date + reviewerEmail}
+struct ReviewDTO: Codable{
     let rating: Int
     let comment: String
     let date: String

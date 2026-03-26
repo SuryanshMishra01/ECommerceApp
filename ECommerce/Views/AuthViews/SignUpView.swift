@@ -19,7 +19,7 @@ struct SignUpView: View {
     @State private var email = ""
     @State private var password = ""
     
-    private let authService = AuthService()
+    @EnvironmentObject var authService: AuthService
     var body: some View {
         
         HStack{
@@ -110,6 +110,9 @@ struct SignUpView: View {
         }
         
         .padding(20)
+        .alert(authService.alertMessage, isPresented: $authService.showAlert) {
+            Button("OK", role: .cancel) {}
+        }
         
     }
 }
