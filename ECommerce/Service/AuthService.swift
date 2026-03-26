@@ -4,7 +4,7 @@
 //
 //  Created by Suryansh Mishra on 11/03/26.
 //
-    
+
 
 import Foundation
 import SwiftUI
@@ -19,14 +19,14 @@ class AuthService: ObservableObject{
     @Published var alertMessage: String = ""
     @Published var showAlert: Bool = false
     
-    
+    //MARK: - Register new account
     func signUp(email: String, password: String, completion: @escaping (Result<AuthDataResult, Error>) -> Void) {
         if email.isEmpty || password.isEmpty {
             alertMessage = "Please fill all the fields"
             showAlert = true
             completion(.failure(NSError(domain:"", code:0, userInfo:[NSLocalizedDescriptionKey:"Missing fields"])))
             return
-
+            
         }
         else if !isValidEmail(email) {
             alertMessage = "Please enter a valid email"
@@ -48,24 +48,24 @@ class AuthService: ObservableObject{
                 }
                 completion(.failure(error))
                 return
-            
+                
             }
             if let auth = authResult {
                 self.logger.info("User created: \(auth.user.email ?? "")")
                 SessionManager.shared.setUser(id: auth.user.uid)
                 completion(.success(auth))
             }
-          
-              
-
+            
+            
+            
         }
         
         
     }
-
     
     
     
+    //MARK: -  Sign in existing account
     func logIn(email: String, password: String, completion: @escaping (Result<AuthDataResult,Error>) -> Void) {
         if email.isEmpty || password.isEmpty {
             alertMessage = "Please fill all the fields"
@@ -95,20 +95,33 @@ class AuthService: ObservableObject{
                 
                 return
             }
-    
-          
-             
+            
             if let auth = authResult{
                 print("User created: \(auth.user.email ?? "")")
                 SessionManager.shared.setUser(id: auth.user.uid)
                 completion(.success(auth))
             }
-           
-           
         }
-      
         
+    }
+    
+    
+    //MARK: - Forgot Password
+    
+    func resetPassword(email: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard !email.isEmpty else {
+            completion(.failure(NSError(domain: "", code: 0,
+                userInfo: [NSLocalizedDescriptionKey: "Enter email first"])))
+            return
+        }
         
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
     }
     
     //MARK: - Helpers
@@ -123,5 +136,5 @@ class AuthService: ObservableObject{
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-   
+    
 }

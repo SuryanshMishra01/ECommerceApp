@@ -96,14 +96,7 @@ struct SignUpView: View {
                 }
                 .frame(width: 250)
                               
-                Spacer()
-                
-                HStack{
-                    Image(systemName: "exclamationmark.circle")
-                    Text("Google and Apple ID Auth not available yet :(")
-                    
-                }
-                .frame(width: 300, alignment: .center)
+              
             }
             .padding()
           

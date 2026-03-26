@@ -18,7 +18,7 @@ class AppState: ObservableObject{
     }
     
     @Published var isAuthenticated: Bool = false
-    @Published var authScreen: AuthScreen = .signup
+    @Published var authScreen: AuthScreen = .login
 }
 
 @main
