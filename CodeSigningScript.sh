@@ -1,8 +1,8 @@
 #!/bin/zsh
 set -euo pipefail
 
-CERT="Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)"
-APP="ECommerce.app"
+rm ECommerce.app/Contents/embedded.provisionprofile
+cp ~/Downloads/WatchGuard_Developer_ID_Application_CM.provisionprofile ECommerce.app/Contents/embedded.provisionprofile
 
 # rm ECommerce.app/Contents/embedded.provisionprofile
 # entitlement path: --entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements" \
