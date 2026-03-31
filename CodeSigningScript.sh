@@ -5,10 +5,11 @@ CERT="Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)"
 APP="ECommerce.app"
 
 # rm ECommerce.app/Contents/embedded.provisionprofile
+# entitlement path: --entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements" \
 
-find "ECommerce.app/Contents/Resources" -name "*.bundle" -type d -exec \
-codesign --force --timestamp --options runtime \
---sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" {} \;
+#find "ECommerce.app/Contents/Resources" -name "*.bundle" -type d -exec \
+#codesign --force --timestamp --options runtime \
+#--sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" {} \;
 
 #codesign --force --timestamp --options runtime \
 #--sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" "ECommerce.app/Contents/MacOS/ECommerce"
@@ -17,7 +18,6 @@ codesign --force --timestamp --options runtime \
 codesign --force \
 --timestamp \
 --options runtime \
---entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements" \
 --sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" "ECommerce.app"
 
 codesign -dvvv ECommerce.app
