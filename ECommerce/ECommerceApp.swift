@@ -44,7 +44,7 @@ struct ECommerceApp: App {
     
     var body: some Scene {
         WindowGroup {
-                RootView()
+            RootView()
                                
             
             .environmentObject(homeVM)
