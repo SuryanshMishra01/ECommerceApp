@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		A91F63142F63DF3E00201F87 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = A91F63132F63DF3E00201F87 /* Nuke */; };
 		A91F63162F63DF3E00201F87 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = A91F63152F63DF3E00201F87 /* NukeUI */; };
+		A923B8722F7CF3CB00FD6162 /* REAME.md in Sources */ = {isa = PBXBuildFile; fileRef = A923B8712F7CF3C100FD6162 /* REAME.md */; };
 		A9A3B6562ED6B8D0007C4CF6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A9A3B6552ED6B8D0007C4CF6 /* FirebaseAuth */; };
 		A9A3B6582ED6B8D0007C4CF6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = A9A3B6572ED6B8D0007C4CF6 /* FirebaseCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A923B8712F7CF3C100FD6162 /* REAME.md */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REAME.md; sourceTree = "<group>"; };
 		A9FCFAB82ECDD065003407BB /* ECommerce.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ECommerce.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -43,6 +45,7 @@
 		A9FCFAAF2ECDD065003407BB = {
 			isa = PBXGroup;
 			children = (
+				A923B8712F7CF3C100FD6162 /* REAME.md */,
 				A9FCFABA2ECDD065003407BB /* ECommerce */,
 				A9FCFAB92ECDD065003407BB /* Products */,
 			);
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A923B8722F7CF3CB00FD6162 /* REAME.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

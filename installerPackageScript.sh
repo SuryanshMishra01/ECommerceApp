@@ -9,7 +9,7 @@ CONFIGURATION="Release"
 BUILD_DIR="build"
 ARCHIVE_PATH="$BUILD_DIR/${APP_NAME}.xcarchive"
 APP_PATH="$BUILD_DIR/${APP_NAME}.app"
-APP_ENTITLEMENTS_PATH="$SCHEME/${APP_NAME}.entitlements"
+APP_ENTITLEMENTS_PATH="ECommerce/ECommerce.entitlements"
 ZIP_PATH="$BUILD_DIR/${APP_NAME}.zip"
 
 STAGING_DIR="staging"
@@ -21,12 +21,6 @@ PKG_IDENTIFIER="com.watchguard.connectionmanager"
 APP_SIGN_IDENTITY="Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)"
 PKG_SIGN_IDENTITY="Developer ID Installer: WatchGuard Technologies, Inc. (3TS3WLH98A)"
 NOTARY_PROFILE="NotaryProfile"
-
-PASSWORD="${1:-}"
-if [[ -z "$PASSWORD" ]]; then
-  echo "Usage: $0 <login-keychain-password>"
-  exit 1
-fi
 
 notarize_and_check() {
   local item_path="$1"
@@ -55,8 +49,6 @@ echo "================ Cleanup ================"
 rm -rf "$BUILD_DIR" "$STAGING_DIR" "$DIST_DIR"
 mkdir -p "$BUILD_DIR" "$STAGING_DIR/Applications" "$DIST_DIR"
 
-echo "================ Unlock login keychain ================"
-security unlock-keychain -p "$PASSWORD" ~/Library/Keychains/login.keychain-db
 
 echo "================ Archive app ================"
 xcodebuild archive \
@@ -69,27 +61,21 @@ echo "================ Copy archived app ================"
 ditto "$ARCHIVE_PATH/Products/Applications/${APP_NAME}.app" "$APP_PATH"
 
 
-echo "============ Sign nested dylibs FIRST =========================="
+echo "================ Replace Provisioning Profile ================"
 
-find "$APP_PATH/Contents" -type f \( -name "*.dylib" -o -name "*.so" \) -exec \
-codesign --force --options runtime --timestamp \
---sign "$APP_SIGN_IDENTITY" {} \;
+rm "$APP_PATH/Contents/embedded.provisionprofile"
+cp ~/Downloads/WatchGuard_Developer_ID_Application_CM.provisionprofile "$APP_PATH/Contents/embedded.provisionprofile"
 
+echo "============= Sign main app (with entitlements) ================"
 
-echo "============ Sign embedded frameworks =========================="
-
-find "$APP_PATH/Contents/Frameworks" -type d -name "*.framework" -exec \
-codesign --force --options runtime --timestamp \
---sign "$APP_SIGN_IDENTITY" {} \;
-
-
-echo "============= Sign main app (LAST, with entitlements) ================"
-
-codesign --force --options runtime --timestamp \
+codesign --force --timestamp --options runtime  \
 --entitlements "$APP_ENTITLEMENTS_PATH" \
 --sign "$APP_SIGN_IDENTITY" "$APP_PATH"
  
- 
+# codesign -s "$APP_SIGN_IDENTITY" -f \
+# --entitlements "$APP_ENTITLEMENTS_PATH" \
+# --timestamp -o runtime "$APP_PATH"
+# 
  echo "================ Verify app signature ================"
 codesign --verify --deep --strict --verbose=4 "$APP_PATH"
 
@@ -127,12 +113,14 @@ mkdir -p "$STAGING_DIR/Applications" "$DIST_DIR"
 ditto "$APP_PATH" "$STAGING_DIR/Applications/${APP_NAME}.app"
 
 echo "================ Build unsigned pkg ================"
-pkgbuild \
-  --root "$STAGING_DIR" \
-  --install-location "/" \
+
+productbuild \
+  --component "$APP_PATH" /Applications \
   --identifier "$PKG_IDENTIFIER" \
   --version "1.0" \
-  "$DIST_DIR/${APP_NAME}.unsigned.pkg"
+ "$DIST_DIR/${APP_NAME}.unsigned.pkg"
+
+
 
 echo "================ Sign pkg ================"
 productsign \

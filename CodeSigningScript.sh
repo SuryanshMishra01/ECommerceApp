@@ -14,8 +14,13 @@ cp ~/Downloads/WatchGuard_Developer_ID_Application_CM.provisionprofile ECommerce
 #codesign --force --timestamp --options runtime \
 #--sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" "ECommerce.app/Contents/MacOS/ECommerce"
 
+#
+#codesign -s "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" -f --entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements" --timestamp -o runtime "ECommerce.app"
 
-codesign -s "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" -f --entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements" --timestamp -o runtime "ECommerce.app"
+codesign --force --timestamp --options runtime \
+--entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements"  \
+--sign  "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" "ECommerce.app"
+
 
 #codesign -dvvv ECommerce.app
 
