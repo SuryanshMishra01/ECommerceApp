@@ -9,6 +9,13 @@
 
 This is a sample ECommerce application, native to MacOS platform, using Swift & SwiftUI.
 
+### Architecture
+1. This project follows Clean Architecture
+2. Every UI request/response goes through:
+3. View <-> ViewModel <-> Repository <-> CoreData
+4. SignUp/LogIn View -> AuthService
+5. ProductsRepository -> ProductsAPIService
+
 ## Table of Contents
 
 *   Home
@@ -32,12 +39,12 @@ This is achieved using:
 
 
 
-                                ## Issues during Code Signing & Notarization
+## Issues during Code Signing & Notarization
 
-                                *   Frameworks are statically linked with app binary, so there is no need to code sign them seperately.
-                                *   Only sign the main .app bundle with entitlements flag
-                                *   There must be a .entitlements file in main app target and it must include:
-                                      1) Disable Library Validation - Yes
-                                      2) Allow Execution of JIT-compiled code - Yes
-                                      3) Allow Unsigned Executable Memory - Yes
-                                      4) It must have a Keychain Access Group - This is required internally by FirebaseAuth.
+*   Frameworks are statically linked with app binary, so there is no need to code sign them seperately.
+*   Only sign the main .app bundle with entitlements flag
+*   There must be a .entitlements file in main app target and it must include:
+      1) Disable Library Validation - Yes
+      2) Allow Execution of JIT-compiled code - Yes
+      3) Allow Unsigned Executable Memory - Yes
+      4) It must have a Keychain Access Group - This is required internally by FirebaseAuth.
