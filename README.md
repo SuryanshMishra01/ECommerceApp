@@ -30,6 +30,8 @@ This is achieved using:
 *   NukeUI
 *   Nuke
 
+
+
                                 ## Issues during Code Signing & Notarization
 
                                 *   Frameworks are statically linked with app binary, so there is no need to code sign them seperately.
