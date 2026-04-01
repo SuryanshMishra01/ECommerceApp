@@ -15,16 +15,13 @@ cp ~/Downloads/WatchGuard_Developer_ID_Application_CM.provisionprofile ECommerce
 #--sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" "ECommerce.app/Contents/MacOS/ECommerce"
 
 
-codesign --force \
---timestamp \
---options runtime \
---sign "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" "ECommerce.app"
+codesign -s "Developer ID Application: WatchGuard Technologies, Inc. (3TS3WLH98A)" -f --entitlements "/Users/SuryanshMishra/Documents/Devlopment_IOSandMacOS/ECommerce/ECommerce/ECommerce.entitlements" --timestamp -o runtime "ECommerce.app"
 
-codesign -dvvv ECommerce.app
+#codesign -dvvv ECommerce.app
 
-ditto -c -k --keepParent ECommerce.app dist/ECommerce.zip
+ditto -c -k --keepParent ECommerce.app ECommerce.zip
 
-xcrun notarytool submit "dist/ECommerce.zip" --keychain-profile "NotaryProfile" --wait
+xcrun notarytool submit "ECommerce.zip" --keychain-profile "NotaryProfile" --wait
 
 xcrun stapler staple "ECommerce.app"
 
